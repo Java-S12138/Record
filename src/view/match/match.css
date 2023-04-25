@@ -1,0 +1,103 @@
+.progressDiv {
+    height:22px;
+    background:rgba(31, 202, 188, 0.12);
+    border-radius: 22px;
+    display: flex;
+    padding: 0px 12px;
+    align-items: center;
+    justify-content: space-between;
+}
+.progressLineBcg {
+    border-radius: 20px;
+    width: 75%;
+    height: 100%;
+    padding: 6px 0px;
+}
+.progressBgc {
+    width:100%;
+    height: 100%;
+    background-color: rgba(235, 235, 235, 1);
+}
+.progressLine {
+    background-color: rgba(235, 235, 235, 1);
+    background: #1FCABC;
+    border-radius: 20px;
+    height: 100%;
+    position: relative;
+}
+.progressLine::after {
+    content: "";
+    background-image: linear-gradient(90deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.5) 100%);
+    animation: processing 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.pText {
+    font-size: 12px ;
+    color: #1FCABC;
+}
+
+.imgFull {
+    animation: light 4s ease-in-out infinite;
+    transition: 0.5s;
+}
+
+.imgFull:hover {
+    transform: scale(1.15) rotate(720deg);
+}
+.rankTag {
+    width:85px;
+    height: 34px;
+    font-size:14px !important;
+    justify-content: center;
+}
+
+@keyframes light {
+    0% {
+        box-shadow: 0 0 4px #ff6666;
+    }
+
+    25% {
+        box-shadow: 0 0 16px #18a058;
+    }
+
+    50% {
+        box-shadow: 0 0 4px #2080f0;
+    }
+
+    75% {
+        box-shadow: 0 0 16px #f0a020;
+    }
+
+    100% {
+        box-shadow: 0 0 4px #d03050;
+    }
+}
+
+@keyframes processing {
+
+    0% {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 100%;
+        opacity: 1;
+    }
+    66% {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        opacity: 0;
+    }
+    100% {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        opacity: 0;
+    }
+
+}
