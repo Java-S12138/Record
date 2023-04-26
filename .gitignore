@@ -11,6 +11,8 @@ node_modules
 dist
 dist-ssr
 DingTalk JinBuTi.ttf
+Cargo.lock
+pnpm-lock.yaml
 *.local
 
 # Editor directories and files

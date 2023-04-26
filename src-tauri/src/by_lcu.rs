@@ -10,6 +10,17 @@ lazy_static!{
     static ref REST_CLIENT:RESTClient = RESTClient::new().unwrap();
 }
 
+
+#[command]
+pub fn is_lcu_success() -> bool {
+    let client =RESTClient::new();
+    if client.is_ok() {
+        true
+    }else {
+        false
+    }
+}
+
 #[command]
 pub async fn get_cur_sum() -> Result<Value, String> {
     let client = &*REST_CLIENT;
@@ -19,9 +30,10 @@ pub async fn get_cur_sum() -> Result<Value, String> {
 }
 
 #[command]
-pub async fn get_cur_rank_point() -> Result<Value, String> {
-    let client = invoke_lcu::RESTClient::new().unwrap();
-    let res =  client.get("/lol-summoner/v1/current-summoner".to_string()).await.unwrap();
+pub async fn get_cur_rank_point(puuid:String) -> Result<Value, String> {
+    let client = &*REST_CLIENT;
+    let url = format!("/lol-ranked/v1/ranked-stats/{}", puuid).to_string();
+    let res =  client.get(url).await.unwrap();
     Ok(res)
 }
 
