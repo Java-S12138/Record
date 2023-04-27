@@ -12,7 +12,19 @@ export const englishToChinese = (tier:string) => {
     case 'IRON' :return '黑铁';
   }
 }
+
 // 处理段位数据
 export const dealDivsion = (divsion:string) => {
   return divsion === 'NA'?'':divsion
+}
+
+// 根据游戏模式ID判断 游戏模式
+export const queryGameType = (queueId:number) => {
+  switch (queueId) {
+    case 420 : return '单双排位';
+    case 430 : return '匹配模式';
+    case 440 : return '灵活排位';
+    case 450 : return '极地乱斗';
+  }
+  return '其它模式'
 }

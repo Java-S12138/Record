@@ -37,3 +37,19 @@ pub async fn get_cur_rank_point(puuid:String) -> Result<Value, String> {
     Ok(res)
 }
 
+#[command]
+pub async fn get_excel_champ(summoner_id:String) -> Result<Value, String> {
+    let client = &*REST_CLIENT;
+    let url = format!("/lol-collections/v1/inventories/{}/champion-mastery", summoner_id).to_string();
+    let res =  client.get(url).await.unwrap();
+    Ok(res)
+}
+#[command]
+pub async fn get_match_list(puuid:String,beg_index:String,end_index:String) -> Result<Value, String> {
+    let client = &*REST_CLIENT;
+    let url = format!("/lol-match-history/v1/products/lol/{}/matches?begIndex={}&endIndex={}", puuid,beg_index,end_index).to_string();
+    let res =  client.get(url).await.unwrap();
+    Ok(res)
+}
+
+

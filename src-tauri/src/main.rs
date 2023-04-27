@@ -17,7 +17,9 @@ fn main() {
         .invoke_handler(tauri::generate_handler![
             by_lcu::is_lcu_success,
             by_lcu::get_cur_sum,
-            by_lcu::get_cur_rank_point
+            by_lcu::get_cur_rank_point,
+            by_lcu::get_excel_champ,
+            by_lcu::get_match_list,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

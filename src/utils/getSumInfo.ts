@@ -1,14 +1,16 @@
 import { invoke } from '@tauri-apps/api';
-import {lcuSummonerInfo,SumInfoRes} from "../interface/SummonerInfo";
+import {lcuSummonerInfo,SumInfoRes,ExcelChamp} from "../interface/SummonerInfo";
 import {englishToChinese,dealDivsion} from "./tool";
+import {champDict} from "../assets/champList";
 
 export const querySummonerInfo = async (sumId?:number):Promise<SumInfoRes> => {
   const summonerInfo: lcuSummonerInfo = await invoke('get_cur_sum')
-  const [sumInfo,rankPoint] =
+  const [sumInfo,rankPoint,excelChamp] =
     await Promise.all([getSumInfo(summonerInfo),
-    getRankPoint(summonerInfo.puuid)])
+      getRankPoint(summonerInfo.puuid),
+      getExcelChamp(`${summonerInfo.summonerId}`)])
 
-  return {sumInfo,rankPoint}
+  return {sumInfo,rankPoint,excelChamp}
 }
 
 const getSumInfo = (summonerInfo:lcuSummonerInfo) => {
@@ -37,4 +39,17 @@ const getRankPoint = async (puuid: string) => {
   let RANKED_TFT = rankTft.tier === "NONE" ? '未定级' : `${englishToChinese(rankTft.tier)}${dealDivsion(rankTft.division)} ${rankTft.leaguePoints}`
 
   return [RANKED_SOLO, RANKED_FLEX_SR, RANKED_TFT]
+}
+
+// 获取召唤师英雄绝活数据
+const getExcelChamp = async (summonerId: string):Promise<ExcelChamp[]> => {
+    const summonerSuperChampData: any = await invoke('get_excel_champ',{summonerId:summonerId})
+    return  summonerSuperChampData.slice(0, 20).reduce((res: any, item: any) => {
+      return res.concat({
+        champImgUrl: `https://game.gtimg.cn/images/lol/act/img/champion/${champDict[item.championId].alias}.png`,
+        champLevel: item.championLevel,
+        championPoints: item.championPoints,
+        champLabel:`${champDict[item.championId].label} ${champDict[item.championId].title}`
+      })
+    }, [])
 }

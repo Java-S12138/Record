@@ -1,8 +1,8 @@
 import "./css/sumInfo.css"
-import {SumInfoRes} from "../../interface/SummonerInfo";
+import {SumReslut} from "../../interface/SummonerInfo";
 import {Image, Tag,Table, Tbody, Tr, Td, TableContainer} from "@chakra-ui/react";
 
-export default function ({sumInfo,rankPoint}:SumInfoRes) {
+export default function ({sumInfo,rankPoint}:{sumInfo:SumReslut,rankPoint:string[]}) {
   console.log(sumInfo)
   const lv:string = sumInfo!==undefined ? `${parseInt(String((sumInfo.xpSL/sumInfo.xpNL)*100))}%` : '0%'
 

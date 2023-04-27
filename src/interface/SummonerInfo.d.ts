@@ -25,8 +25,15 @@ interface SumReslut {
   puuid: string;
   currentId: number;
 }
+interface ExcelChamp {
+  champImgUrl: string,
+  champLevel: string,
+  championPoints: string,
+  champLabel:string
+}
 
 export interface SumInfoRes {
   sumInfo:SumReslut,
-  rankPoint:string[]
+  rankPoint:string[],
+  excelChamp:ExcelChamp[]
 }

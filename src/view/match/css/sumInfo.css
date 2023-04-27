@@ -14,6 +14,7 @@
     padding: 6px 0px;
 }
 .progressBgc {
+    border-radius: 20px;
     width:100%;
     height: 100%;
     background-color: rgba(235, 235, 235, 1);
