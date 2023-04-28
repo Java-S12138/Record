@@ -27,7 +27,7 @@ body {
   background: #f5f5f5 !important;
 }
 
-span {
+span,p,div {
   cursor: default;
 }
 

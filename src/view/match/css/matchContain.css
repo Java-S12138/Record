@@ -1,0 +1,81 @@
+.champAvatar {
+    width: 50px;
+    height: 50px;
+    position: relative;
+}
+.champAvatarColorRed {
+    background-color: #ff6666;
+}
+.champAvatarColorBlue {
+    background-color: #2080f0;
+}
+.champLevel {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    width: 15px;
+    height: 15px;
+    bottom:0px;
+    right: 0px;
+    color: #ffffff;
+    border-radius: 2px;
+}
+
+.summonerItem {
+    width: 270px;
+    display: flex;
+    gap: 0 14px;
+}
+
+.itemClass {
+    width: 25px;
+    height: 25px;
+    border-radius: 3px;
+}
+
+.itemClassSecond {
+    width: 15px;
+    height: 15px;
+    border-radius: 2px;
+}
+
+.skillDiv {
+    height: 15px;
+    width: 205px;
+    display: flex;
+    gap: 0 5px;
+}
+
+.summonerName {
+    position: absolute;
+    top: -2px;
+    left: 39px;
+    max-width: 110px;
+    font-size: 13px;
+    color: #A1A1AA;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.kdaDiv {
+    height: 18px;
+    font-size: 13px;
+    position: absolute;
+    top: -2px;
+    right: 0px;
+    padding:0px 5px 0px 5px;
+    border-radius: 3px;
+    color: #52525b;
+    background-color: #EDF2F7;
+}
+
+.progressP {
+    margin-top: 8px;
+    height: 7px;
+    border-radius: 2px;
+    width: 270px;
+    background-color:#ff6666;
+}

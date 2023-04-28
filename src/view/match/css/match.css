@@ -1,0 +1,41 @@
+.matchTime {
+    height:22px;
+    width:54px;
+    justify-content:center;
+    fontSize:12px
+}
+.defaultMatch {
+    color:#A1A1AA !important;
+}
+.selecttMatch {
+    background-color: rgba(31, 202, 188, 0.12) !important;
+    color:#1FCABC !important;
+}
+
+.detaildTr {
+    display: flex;
+    justify-content: space-between;
+}
+
+.detailHeader td {
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.detailHeader td div:first-child {
+    color: #A1A1AA;
+}
+.detailHeader td div:nth-child(2) {
+    color: #52525b;
+}
+.showType {
+    color:#2080F0 !important;
+    cursor: pointer;
+}
+
+.matchContain {
+    height: calc(100% - 2px);
+}

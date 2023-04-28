@@ -1,24 +1,20 @@
 import RHeader from "./RHeader";
+import RExcelChamp from "./RExcelChamp";
 import {useState, useEffect} from "react";
 import RSummonerInfo from "./RSummonerInfo";
-import RExcelChamp from "./RExcelChamp";
 import RMatchHistory from "./RMatchHistory";
 import {Grid, GridItem} from '@chakra-ui/react'
 import {SumInfoRes} from "../../interface/SummonerInfo";
-import {MatchList} from "../../interface/MatchInfo";
 import {querySummonerInfo} from "../../utils/getSumInfo";
-import {queryMatchList} from "../../utils/getMatchInfo";
 
 export default function () {
   const [sumId,setSumId] = useState(0)
   const [sumInfoProps, setSumInfoProps] = useState<SumInfoRes>({} as SumInfoRes)
-  const [matchListProps, setMatchListProps] = useState<MatchList[]>([])
 
   useEffect(() => {
     const fetchSumInfo = async () => {
       const sumInfo: SumInfoRes = await querySummonerInfo()
       setSumInfoProps(sumInfo)
-      setMatchListProps(await queryMatchList(sumInfo.sumInfo.puuid,'0','9'))
     }
     if (sumInfoProps.sumInfo === undefined){
       fetchSumInfo()
@@ -38,14 +34,14 @@ export default function () {
   return (
     <div className="main p-3">
       <Grid
-        templateAreas={`"header header"
-                  "main nav "
-                  "footer nav "`}
+        templateAreas={`
+          "header header"
+          "main nav"
+          "footer nav"`}
         gridTemplateRows={'40px 1fr 316px'}
         gridTemplateColumns={'250px 1fr'}
         h='626px'
-        gap='12px'
-      >
+        gap='12px'>
         <GridItem area={'header'}>
           <RHeader/>
         </GridItem>
@@ -57,7 +53,7 @@ export default function () {
           <RExcelChamp champList={sumInfoProps.excelChamp}/>
         </GridItem>
         <GridItem area={'nav'}>
-          <RMatchHistory matchList={matchListProps}/>
+          <RMatchHistory puuid={sumInfoProps.sumInfo.puuid}/>
         </GridItem>
       </Grid>
     </div>
