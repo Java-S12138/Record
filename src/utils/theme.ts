@@ -13,8 +13,8 @@ const NSuccess = definePartsStyle({
 })
 const NInfo = definePartsStyle({
   container: {
-    bg: 'rgba(32, 128, 240, 0.12)',
-    color:'#2080f0'
+    bg: 'rgba(102,179,255, 0.12)',
+    color:'#66B3FF'
   },
 })
 const NError = definePartsStyle({

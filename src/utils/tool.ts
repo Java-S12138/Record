@@ -28,3 +28,30 @@ export const queryGameType = (queueId:number) => {
   }
   return '其它模式'
 }
+
+// 通过召唤师id获取召唤师图片地址
+export const getspellImgUrl = (spellId:number) => {
+  switch (spellId) {
+    case 4:return 'https://game.gtimg.cn/images/lol/act/img/spell/Summoner_flash.png';
+    case 14:return 'https://game.gtimg.cn/images/lol/act/img/spell/SummonerIgnite.png';
+    case 11:return 'https://game.gtimg.cn/images/lol/act/img/spell/Summoner_smite.png';
+    case 6:return 'https://game.gtimg.cn/images/lol/act/img/spell/Summoner_haste.png';
+    case 12:return 'https://game.gtimg.cn/images/lol/act/img/spell/Summoner_teleport.png';
+    case 21:return 'https://game.gtimg.cn/images/lol/act/img/spell/SummonerBarrier.png';
+    case 3:return 'https://game.gtimg.cn/images/lol/act/img/spell/Summoner_exhaust.png';
+    case 1:return 'https://game.gtimg.cn/images/lol/act/img/spell/Summoner_boost.png';
+    case 7:return 'https://game.gtimg.cn/images/lol/act/img/spell/Summoner_heal.png';
+    case 32:return 'https://game.gtimg.cn/images/lol/act/img/spell/Summoner_Mark.png'
+  }
+  return 'https://game.gtimg.cn/images/lol/act/img/spell/SummonerMana.png'
+}
+
+// 通过物品id获取图片地址
+export const getItemImgUrl = (item:number) => {
+
+  if (item == 0){
+    return new URL("/src/assets/img/image.png", import.meta.url).href
+  }else {
+    return `https://game.gtimg.cn/images/lol/act/img/item/${item}.png`
+  }
+}

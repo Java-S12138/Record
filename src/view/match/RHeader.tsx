@@ -10,6 +10,7 @@ export default function () {
         <img className='w-10' srcSet={icon}/>
         <p className="ml-3 text-3xl font-bold text-zinc-600">Record</p>
         <div className="rounded-full flex roundMDiv roundFont" onClick={() => appWindow.minimize()}>-</div>
+        <div className="rounded-full flex roundODiv roundFont" onClick={() => appWindow.minimize()}>o</div>
         <Tooltip label='下次见' placement='left' bg='#ff6666'>
           <div className="rounded-full flex roundCDiv roundFont" onClick={() => appWindow.close()}>x</div>
         </Tooltip>

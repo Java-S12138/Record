@@ -51,5 +51,12 @@ pub async fn get_match_list(puuid:String,beg_index:String,end_index:String) -> R
     let res =  client.get(url).await.unwrap();
     Ok(res)
 }
+#[command]
+pub async fn get_match_detail(game_id:String) -> Result<Value, String> {
+    let client = &*REST_CLIENT;
+    let url = format!("/lol-match-history/v1/games/{}", game_id).to_string();
+    let res =  client.get(url).await.unwrap();
+    Ok(res)
+}
 
 

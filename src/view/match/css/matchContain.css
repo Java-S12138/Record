@@ -7,7 +7,7 @@
     background-color: #ff6666;
 }
 .champAvatarColorBlue {
-    background-color: #2080f0;
+    background-color: #66B3FF;
 }
 .champLevel {
     position: absolute;
@@ -73,9 +73,15 @@
 }
 
 .progressP {
-    margin-top: 8px;
+    margin-top: 12px;
     height: 7px;
     border-radius: 2px;
     width: 270px;
-    background-color:#ff6666;
+}
+.matchItemMain {
+    display: flex;
+    flex-direction: column;
+    width: 270px;
+    justify-content: space-between;
+    height: 100%;
 }

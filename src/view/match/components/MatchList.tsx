@@ -3,8 +3,13 @@ import {MatchList} from "../../../interface/MatchInfo";
 import {Image, Table, TableContainer, Tag,Tr,Divider, Tbody} from "@chakra-ui/react";
 import {useState} from "react";
 
-export default function ({matchList}:{matchList:MatchList[]}) {
+export default function ({matchList,setGameId}:{matchList:MatchList[],setGameId:Function},) {
   const [matchIndex,setMatchIndex] = useState(0)
+
+  const updateGameId = (gameId:string,index:number) => {
+    setGameId(gameId)
+    setMatchIndex(index)
+  }
 
   const matchListElement = matchList.map((match,index) => {
     let stylyPadding
@@ -17,7 +22,7 @@ export default function ({matchList}:{matchList:MatchList[]}) {
     }
     return (
       <Tr key={index}>
-        <td onClick={() => {setMatchIndex(index)}}>
+        <td onClick={() => {updateGameId(match.gameId,index)}}>
           <div style={stylyPadding} className="flex justify-between">
           <Image className='rounded'
                  boxSize='40px' src={match.champImgUrl}/>
