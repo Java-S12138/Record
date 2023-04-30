@@ -1,4 +1,3 @@
-import "./css/match.css"
 import {Grid, GridItem} from '@chakra-ui/react';
 import MatchListEle from "./components/MatchList";
 import {MatchList} from "../../interface/MatchInfo";
@@ -42,7 +41,7 @@ export default function ({puuid}:{puuid:string}) {
           <MatchListEle matchList={matchListProps} setGameId={setCurrentGameId}/>
         </GridItem>
 
-        <GridItem key={currentGameId} className='slide-in-right' colSpan={4}>
+        <GridItem key={currentGameId} colSpan={4}>
           <MatchDetail gameId={currentGameId}/>
         </GridItem>
     </Grid>
