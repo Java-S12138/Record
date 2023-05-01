@@ -6,11 +6,13 @@ import {
 } from '@chakra-ui/react'
 import "../css/match.css"
 
-export default function ({title}:{title:string[]}) {
+export default function ({title,showTypeValue,switchFun}: {title:string[],showTypeValue:string,switchFun:Function}) {
   const winState = {
     isOne:Number(title[6])>Number(title[7]),
     score:(Math.abs(Number(title[6])-Number(title[7])).toFixed(1))
   }
+
+  // const showType = {tddtc: '输出伤害', tdt: '承受伤害', ge: '商店存款', vs: '视野得分', tmk: '击杀小兵'}
 
   return (
     <div>
@@ -32,7 +34,7 @@ export default function ({title}:{title:string[]}) {
               </td>
               <td>
                 <div>数据显示</div>
-                <div className='showType'>输出伤害</div>
+                <div className='showType' onClick={() => {switchFun()}}>{showTypeValue}</div>
               </td>
               <td>
                 <div>双方比分</div>

@@ -3,12 +3,15 @@
     height: 50px;
     position: relative;
 }
+
 .champAvatarColorRed {
     background-color: #ff6666;
 }
+
 .champAvatarColorBlue {
     background-color: #66B3FF;
 }
+
 .champLevel {
     position: absolute;
     display: flex;
@@ -17,7 +20,7 @@
     font-size: 12px;
     width: 15px;
     height: 15px;
-    bottom:0px;
+    bottom: 0px;
     right: 0px;
     color: #ffffff;
     border-radius: 2px;
@@ -66,17 +69,37 @@
     position: absolute;
     top: -2px;
     right: 0px;
-    padding:0px 5px 0px 5px;
+    padding: 0px 5px 0px 5px;
     border-radius: 3px;
     color: #52525b;
     background-color: #EDF2F7;
 }
 
+.progressDivP{
+    margin-top: 14px;
+    width: 270px;
+    height: 18px;
+    border-radius: 2px;
+    background-color: #ffffff;
+    display: flex;
+    align-items: flex-end;
+    gap: 14px;
+}
+
 .progressP {
-    margin-top: 12px;
     height: 7px;
     border-radius: 2px;
-    width: 270px;
+}
+
+.progressValue {
+    color: #A1A1AA;
+    background-color: #EDF2F7;
+    font-size: 12px;
+    display: flex;
+    width: 50px;
+    justify-content: center;
+    padding: 0 4px;
+    border-radius: 2px;
 }
 .matchItemMain {
     display: flex;
@@ -85,3 +108,23 @@
     justify-content: space-between;
     height: 100%;
 }
+
+.currentSumColor {
+    color: #1FCABC !important;
+}
+
+.slideSum {
+    animation: slideSum-in-right 1.25s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+@keyframes slideSum-in-right {
+    0% {
+        transform: translateX(250px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+

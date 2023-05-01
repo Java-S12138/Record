@@ -1,3 +1,4 @@
+import "./css/animation.css"
 import {Grid, GridItem} from '@chakra-ui/react';
 import MatchListEle from "./components/MatchList";
 import {MatchList} from "../../interface/MatchInfo";
@@ -15,10 +16,24 @@ export default function ({puuid}:{puuid:string}) {
       if (matchList.length > 0) {
         setMatchListProps(matchList)
         setCurrentGameId(matchList[0].gameId)
+
       }
     }
     fetchMatchList()
   },[])
+
+  const changeCurrentGameId = (gameId: string) => {
+    if (gameId===currentGameId){
+      return
+    }
+    const matchElement = document.getElementById('matchDetail')
+    if (matchElement !== null){
+      matchElement.children[0].classList.add('slide-out-left')
+    }
+    setTimeout(() => {
+      setCurrentGameId(gameId)
+    },300)
+  }
 
 
 
@@ -38,11 +53,11 @@ export default function ({puuid}:{puuid:string}) {
         gap="66px"
       >
         <GridItem  style={{width:'185px'}} colSpan={1}>
-          <MatchListEle matchList={matchListProps} setGameId={setCurrentGameId}/>
+          <MatchListEle matchList={matchListProps} setGameId={changeCurrentGameId}/>
         </GridItem>
 
-        <GridItem key={currentGameId} colSpan={4}>
-          <MatchDetail gameId={currentGameId}/>
+        <GridItem colSpan={4} id='matchDetail'>
+          <MatchDetail key={currentGameId} gameId={currentGameId}/>
         </GridItem>
     </Grid>
     </div>

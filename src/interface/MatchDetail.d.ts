@@ -1,8 +1,17 @@
 export interface MatchItem {
-  isLeft:boolean
-  detailInfo:SummonerDetailInfo[]
+  isLeft: boolean
+  detailInfo: SummonerDetailInfo[],
+  showTypeKey:string,
+  showTypeIndex:number,
 }
 
+export interface MaxValueList {
+  tddtc: number,
+  tdt: number,
+  ge: number,
+  vs: number,
+  tmk: number
+}
 
 interface Player {
   accountId: number;
@@ -134,9 +143,11 @@ interface CreepsPerMinDelta {
   "10-20": number;
 }
 
-interface CsDiffPerMinDelta {}
+interface CsDiffPerMinDelta {
+}
 
-interface DamageTakenDiffPerMinDelta {}
+interface DamageTakenDiffPerMinDelta {
+}
 
 interface DamageTakenPerMinDelta {
   "0-10": number;
@@ -148,7 +159,8 @@ interface GoldPerMinDelta {
   "10-20": number;
 }
 
-interface XpDiffPerMinDelta {}
+interface XpDiffPerMinDelta {
+}
 
 interface XpPerMinDelta {
   "0-10": number;
@@ -254,7 +266,7 @@ export interface SummonerDetailInfo {
 }
 
 export interface ParticipantsInfo {
-  teamOne:SummonerDetailInfo[],
-  teamTwo:SummonerDetailInfo[],
-  headerInfo:string[]
+  teamOne: SummonerDetailInfo[],
+  teamTwo: SummonerDetailInfo[],
+  headerInfo: string[]
 }

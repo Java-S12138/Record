@@ -38,6 +38,7 @@
 .showType {
     color: #1FCABC !important;
     cursor: pointer;
+    user-select:none;
 }
 
 .matchContain {

@@ -1,4 +1,6 @@
-export const champDict:any = {
+export const champDict:
+  { [key: string]: { champId: string, label: string, alias: string, title: string } } =
+  {
   '1': {'champId': '1', 'label': '黑暗之女', 'alias': 'Annie', 'title': '安妮'},
   '2': {'champId': '2', 'label': '狂战士', 'alias': 'Olaf', 'title': '奥拉夫'},
   '3': {'champId': '3', 'label': '正义巨像', 'alias': 'Galio', 'title': '加里奥'},
@@ -163,6 +165,7 @@ export const champDict:any = {
   '897': {'champId': '897', 'label': '纳祖芒荣耀', 'alias': 'KSante', 'title': '奎桑提'},
   '902': {'champId': '902', 'label': '明烛', 'alias': 'Milio', 'title': '米利欧'},
 }
+
 export const optionsChampion = [
   {
     'value': '1',
@@ -658,7 +661,7 @@ export const optionsChampion = [
     'label': '明烛'
   }
 ]
-export const mapNameFromUrl:any = {
+export const mapNameFromUrl:  { [key: string]: { label: string, name: string } }  = {
   'Annie': {'label': '黑暗之女', 'name': '安妮'},
   'Olaf': {'label': '狂战士', 'name': '奥拉夫'},
   'Galio': {'label': '正义巨像', 'name': '加里奥'},
@@ -824,7 +827,7 @@ export const mapNameFromUrl:any = {
   'KSante': {'label': '纳祖芒荣耀', 'name': '奎桑提'},
   'Milio': {'label': '明烛', 'name': '米利欧'},
 }
-export const aliasToId:any = {
+export const aliasToId:  { [key: string]: number } = {
   "Annie": 1,
   "Olaf": 2,
   "Galio": 3,
