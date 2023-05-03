@@ -7,27 +7,27 @@ import {Grid, GridItem} from '@chakra-ui/react'
 import {SumInfoRes} from "../../interface/SummonerInfo";
 import {querySummonerInfo} from "../../utils/getSumInfo";
 
-export const SumIdContext = createContext(213)
+export const SumIdContext = createContext(0)
+export const AlterToSumId = createContext((sumId: number) => {})
 
 export const Match = () =>  {
   const [sumId,setSumId] = useState(0)
   const [sumInfoProps, setSumInfoProps] = useState<SumInfoRes>({} as SumInfoRes)
 
-
   useEffect(() => {
     const fetchSumInfo = async () => {
-      const sumInfo: SumInfoRes = await querySummonerInfo()
+      console.log(sumId)
+      const sumInfo: SumInfoRes = await querySummonerInfo(sumId)
       setSumInfoProps(sumInfo)
     }
-    if (sumInfoProps.sumInfo === undefined){
-      fetchSumInfo()
-    }
+    fetchSumInfo()
 
   },[sumId])
 
-  const test = () => {
-    setSumInfoProps({} as SumInfoRes)
-    setSumId(1)
+  const setSetSumId = (summonerId:number) => {
+    if (summonerId!==sumId){
+      setSumId(summonerId)
+    }
   }
 
   if (sumInfoProps.sumInfo === undefined ) {
@@ -35,8 +35,8 @@ export const Match = () =>  {
   }
 
   return (
-    <SumIdContext.Provider value={sumInfoProps.sumInfo.currentId}>
-      <div className="main p-3">
+    <AlterToSumId.Provider value={setSetSumId}>
+      <div className="main p-3 overflow-hidden">
         <Grid
           templateAreas={`
             "header header"
@@ -50,17 +50,19 @@ export const Match = () =>  {
             <RHeader/>
           </GridItem>
           <GridItem area={'main'}>
-            <RSummonerInfo sumInfo={sumInfoProps?.sumInfo}
-                           rankPoint={sumInfoProps?.rankPoint}/>
+            <RSummonerInfo sumInfo={sumInfoProps.sumInfo}
+                           rankPoint={sumInfoProps.rankPoint}/>
           </GridItem>
           <GridItem area={'footer'}>
             <RExcelChamp champList={sumInfoProps.excelChamp}/>
           </GridItem>
           <GridItem area={'nav'}>
-            <RMatchHistory puuid={sumInfoProps.sumInfo.puuid}/>
+            <SumIdContext.Provider value={sumInfoProps.sumInfo.currentId}>
+              <RMatchHistory puuid={sumInfoProps.sumInfo.puuid}/>
+            </SumIdContext.Provider>
           </GridItem>
         </Grid>
       </div>
-    </SumIdContext.Provider>
+    </AlterToSumId.Provider>
   )
 }

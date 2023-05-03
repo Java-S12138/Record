@@ -82,7 +82,7 @@
     border-radius: 2px;
     background-color: #ffffff;
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     gap: 14px;
 }
 
@@ -101,6 +101,7 @@
     padding: 0 4px;
     border-radius: 2px;
 }
+
 .matchItemMain {
     display: flex;
     flex-direction: column;

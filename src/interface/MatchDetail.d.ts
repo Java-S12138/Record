@@ -3,6 +3,7 @@ export interface MatchItem {
   detailInfo: SummonerDetailInfo[],
   showTypeKey:string,
   showTypeIndex:number,
+  querySumDetail:Function
 }
 
 export interface MaxValueList {
@@ -11,6 +12,19 @@ export interface MaxValueList {
   ge: number,
   vs: number,
   tmk: number
+}
+
+export interface SumDetail {
+  name: string;
+  champImgUrl: string;
+  champLevel: number;
+  kda: string;
+  spell1Id: string;
+  spell2Id: string;
+  runesList: number[];
+  listItemData: any[][];
+  rankData: string[];
+  summonerId: number;
 }
 
 interface Player {

@@ -1,15 +1,20 @@
+import MatchSumDetail from "./MatchSumDetail";
 import MatchDetailItem from "./MatchDetailItem";
 import MatchDetailHeader from "./MatchDetailHeader";
-import {useEffect, useRef, useState,useContext} from "react";
+import {useEffect, useRef, useState} from "react";
 import {queryGameDetail} from "../../../utils/getMatchDetail";
-import {ParticipantsInfo} from "../../../interface/MatchDetail";
-
+import {ParticipantsInfo, SumDetail} from "../../../interface/MatchDetail";
+import {Drawer, useDisclosure, DrawerBody, DrawerOverlay, DrawerContent} from '@chakra-ui/react'
 
 export default function ({gameId}:{gameId:string}) {
   const [participantsInfo,setParticipantsInfo] = useState({} as ParticipantsInfo)
   const arr = [['tddtc','输出伤害'],['tdt','承受伤害'],['ge','商店存款'],['vs','视野得分'],['tmk','击杀小兵']]
   const [showType,setShowType] = useState(['tddtc','输出伤害'])
   const showTypeIndex= useRef(0)
+  const [sumDetail,setSumDetail] = useState({} as SumDetail)
+1w
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const btnRef = useRef(null)
 
   useEffect(() => {
     const fetchMatchDetail = async () => {
@@ -27,6 +32,11 @@ export default function ({gameId}:{gameId:string}) {
     setShowType(arr[rotatedIndex])
   }
 
+  const openSumDetailDrawer = (sumDetail:SumDetail) => {
+    setSumDetail(sumDetail)
+    onOpen()
+  }
+
   if (participantsInfo?.headerInfo === undefined){
     return (
       <div>
@@ -40,11 +50,28 @@ export default function ({gameId}:{gameId:string}) {
       <div className='grow'>
         <div className='matchContain'>
           <MatchDetailItem showTypeIndex={showTypeIndex.current} isLeft={true} showTypeKey={showType[0]}
-                           detailInfo={participantsInfo.teamOne}/>
+                           detailInfo={participantsInfo.teamOne} querySumDetail={openSumDetailDrawer}/>
           <MatchDetailItem showTypeIndex={showTypeIndex.current} isLeft={false} showTypeKey={showType[0]}
-                           detailInfo={participantsInfo.teamTwo}/>
+                           detailInfo={participantsInfo.teamTwo} querySumDetail={openSumDetailDrawer}/>
         </div>
       </div>
+      {/*<Button ref={btnRef} colorScheme='teal' onClick={onOpen}>*/}
+      {/*  Open*/}
+      {/*</Button>*/}
+      <Drawer
+        isOpen={isOpen}
+        placement='left'
+        onClose={onClose}
+        autoFocus={false}
+        finalFocusRef={btnRef}
+      >
+        <DrawerOverlay />
+        <DrawerContent style={{width:'265px',borderTopRightRadius:'10px',borderBottomRightRadius:'10px'}}>
+          <DrawerBody style={{padding:'12px'}}>
+           <MatchSumDetail sumDetail={sumDetail} closeDrawer={onClose} />
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
     </div>
   )
 }

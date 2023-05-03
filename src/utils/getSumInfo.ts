@@ -3,8 +3,10 @@ import {lcuSummonerInfo,SumInfoRes,ExcelChamp} from "../interface/SummonerInfo";
 import {englishToChinese,dealDivsion} from "./tool";
 import {champDict} from "../assets/champList";
 
-export const querySummonerInfo = async (sumId?:number):Promise<SumInfoRes> => {
-  const summonerInfo: lcuSummonerInfo = await invoke('get_cur_sum')
+export const querySummonerInfo = async (sumId:number):Promise<SumInfoRes> => {
+  const summonerInfo: lcuSummonerInfo = sumId===0
+    ? await invoke('get_cur_sum')
+    : await invoke('get_other_sum',{summonerId:String(sumId)})
   const [sumInfo,rankPoint,excelChamp] =
     await Promise.all([getSumInfo(summonerInfo),
       getRankPoint(summonerInfo.puuid),
@@ -52,4 +54,10 @@ const getExcelChamp = async (summonerId: string):Promise<ExcelChamp[]> => {
         champLabel:`${champDict[item.championId].label} ${champDict[item.championId].title}`
       })
     }, [])
+}
+
+// 查询其他召唤师段位信息
+export const querySumRank = async (summonerId:string) => {
+  const summonerInfo: lcuSummonerInfo = await invoke('get_other_sum',{summonerId:summonerId})
+  return await getRankPoint(summonerInfo.puuid)
 }

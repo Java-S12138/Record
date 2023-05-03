@@ -51,6 +51,12 @@
     font-size:14px !important;
     justify-content: center;
 }
+.otherDataTag {
+    width:85px;
+    height: 20px;
+    color: #A1A1AA !important;
+    justify-content: center;
+}
 
 @keyframes light {
     0% {

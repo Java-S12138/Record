@@ -1,4 +1,4 @@
-import {Image,Table, TableContainer, Tag, Tbody, Td, Tr} from "@chakra-ui/react";
+import {Image,Table, TableContainer, Tag, Tbody, Tr} from "@chakra-ui/react";
 import {ExcelChamp} from "../../interface/SummonerInfo";
 
 export default function ({champList}:{champList:ExcelChamp[]}) {
@@ -45,7 +45,7 @@ export default function ({champList}:{champList:ExcelChamp[]}) {
   return (
     <div className="p-3 bg-white h-full w-full boxShadow">
       <div className="overflow-auto" style={{height:'100%',borderRadius:'6px'}}>
-      <TableContainer className="">
+      <TableContainer>
         <Table variant='unstyled' size='sm'>
           <Tbody>
             {champsTr}

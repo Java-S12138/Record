@@ -26,7 +26,14 @@ pub async fn get_cur_sum() -> Result<Value, String> {
     let client = &*REST_CLIENT;
     let res =  client.get("/lol-summoner/v1/current-summoner".to_string()).await.unwrap();
     Ok(res)
+}
 
+#[command]
+pub async fn get_other_sum(summoner_id:String) -> Result<Value, String> {
+    let client = &*REST_CLIENT;
+    let url = format!("/lol-summoner/v1/summoners/{}", summoner_id).to_string();
+    let res =  client.get(url).await.unwrap();
+    Ok(res)
 }
 
 #[command]

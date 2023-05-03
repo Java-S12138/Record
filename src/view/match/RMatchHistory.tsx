@@ -2,27 +2,31 @@ import "./css/animation.css"
 import {Grid, GridItem} from '@chakra-ui/react';
 import MatchListEle from "./components/MatchList";
 import {MatchList} from "../../interface/MatchInfo";
-import {useEffect, useState} from "react";
+import {useEffect, useState,useTransition} from "react";
 import {queryMatchList} from "../../utils/getMatchInfo";
 import MatchDetail from "./components/MatchDetail";
 
 export default function ({puuid}:{puuid:string}) {
   const [matchListProps, setMatchListProps] = useState<MatchList[]>([])
   const [currentGameId,setCurrentGameId] = useState('')
+  const [matchIndex,setMatchIndex] = useState(0)
+  const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
     const fetchMatchList = async () => {
       const matchList = await queryMatchList(puuid,'0','9')
       if (matchList.length > 0) {
-        setMatchListProps(matchList)
-        setCurrentGameId(matchList[0].gameId)
-
+       startTransition(() => {
+         setMatchIndex(0)
+         setMatchListProps(matchList)
+         setCurrentGameId(matchList[0].gameId)
+       })
       }
     }
     fetchMatchList()
-  },[])
+  },[puuid])
 
-  const changeCurrentGameId = (gameId: string) => {
+  const changeCurrentGameId = (gameId: string,matchIndex:number) => {
     if (gameId===currentGameId){
       return
     }
@@ -32,9 +36,9 @@ export default function ({puuid}:{puuid:string}) {
     }
     setTimeout(() => {
       setCurrentGameId(gameId)
+      setMatchIndex(matchIndex)
     },300)
   }
-
 
 
   if (currentGameId===''){
@@ -53,7 +57,7 @@ export default function ({puuid}:{puuid:string}) {
         gap="66px"
       >
         <GridItem  style={{width:'185px'}} colSpan={1}>
-          <MatchListEle matchList={matchListProps} setGameId={changeCurrentGameId}/>
+          <MatchListEle matchList={matchListProps} matchIndex={matchIndex} setGameId={changeCurrentGameId}/>
         </GridItem>
 
         <GridItem colSpan={4} id='matchDetail'>
