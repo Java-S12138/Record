@@ -8,7 +8,9 @@ export default function ({sumInfo,rankPoint}:{sumInfo:SumReslut,rankPoint:string
   return (
     <div className="p-3 bg-white h-full w-full boxShadow" style={{height:'246px'}}>
       <div className="flex gap-x-4">
-        <Image className="imgFull" borderRadius='full' boxSize='60px' src={sumInfo.imgUrl}/>
+        <Image className="imgFull" borderRadius='full'
+               boxSize='60px' src={sumInfo.imgUrl}
+               fallbackSrc='https://wegame.gtimg.com/g.26-r.c2d3c/helper/lol/assis/images/resources/usericon/5430.png'/>
         <div className="flex flex-col grow gap-y-2">
             <Tag
               size={'md'}

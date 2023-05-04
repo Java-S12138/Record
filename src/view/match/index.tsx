@@ -16,7 +16,6 @@ export const Match = () =>  {
 
   useEffect(() => {
     const fetchSumInfo = async () => {
-      console.log(sumId)
       const sumInfo: SumInfoRes = await querySummonerInfo(sumId)
       setSumInfoProps(sumInfo)
     }

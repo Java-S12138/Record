@@ -22,3 +22,10 @@
     width: 16px;
     height: 16px;
 }
+
+.inputDiv {
+    display: flex;
+    align-items: center;
+    margin-left: 23px;
+    gap: 12px;
+}

@@ -49,7 +49,7 @@ export default function ({matchList,matchIndex,setGameId}:{matchList:MatchList[]
 
   return (
     <div>
-      <TableContainer className="">
+      <TableContainer>
         <Table variant='unstyled' size='sm'>
           <Tbody>
             {matchListElement}

@@ -35,6 +35,13 @@ pub async fn get_other_sum(summoner_id:String) -> Result<Value, String> {
     let res =  client.get(url).await.unwrap();
     Ok(res)
 }
+#[command]
+pub async fn get_other_sum_by_name(name:String) -> Result<Value, String> {
+    let client = &*REST_CLIENT;
+    let url = format!("/lol-summoner/v1/summoners?name={}", name).to_string();
+    let res =  client.get(url).await.unwrap();
+    Ok(res)
+}
 
 #[command]
 pub async fn get_cur_rank_point(puuid:String) -> Result<Value, String> {

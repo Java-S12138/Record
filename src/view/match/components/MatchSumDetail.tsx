@@ -15,7 +15,7 @@ export default function ({sumDetail,closeDrawer}:{sumDetail:SumDetail,closeDrawe
   const runesImgEle = sumDetail.runesList.map((rune,index) => {
     const imgUrl = new URL(`/src/assets/runes/${rune}.png`, import.meta.url).href
     return (
-      <img key={index} src={imgUrl} style={{width:'30px'}} />
+      <Image key={index}  src={imgUrl} style={{width:'30px'}} />
     )
   })
 
