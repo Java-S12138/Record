@@ -40,27 +40,34 @@ const getSimpleMatch = (match: Game,gameModel:string):MatchList => {
 }
 
 // 处理战绩数据
-export const queryMatchList = async (puuid: string, begIndex: string, endIndex: string, mode?: string|undefined):Promise<Array<MatchList> | []>  => {
+export const queryMatchList = async (puuid: string, begIndex: string, endIndex: string):Promise<Array<MatchList> | []>  => {
   const matchList = await getMatchList(puuid, begIndex, endIndex)
 
   if (matchList === null) {return []}
 
   if (matchList?.games?.games?.length === 0 || matchList?.games?.games === undefined ) {return []}
 
-  const simpleMatchList = []
-  const specialSimpleMatchList = []
+  const simpleMatchList:MatchList[] = []
   for (const matchListElement of matchList?.games?.games.reverse()) {
-    // 游戏模式
-    let gameModel = queryGameType(matchListElement.queueId)
-    if (gameModel === mode) {
-      specialSimpleMatchList.push(getSimpleMatch(matchListElement,gameModel))
-    }else if (mode === undefined) {
-      simpleMatchList.push(getSimpleMatch(matchListElement,gameModel))
+    const gameModel = queryGameType(matchListElement.queueId)
+    simpleMatchList.push(getSimpleMatch(matchListElement,gameModel))
+  }
+
+  return simpleMatchList
+}
+
+// 查看特定模式的战绩
+export const queryMatchHistory = async (puuid: string, mode?: string):Promise<MatchList[]> => {
+  let specialDict:MatchList[] = []
+
+  for (let i = 0; i < 5; i++) {
+    const begIndex = String(20*i)
+    const endIndex = i===4 ? String(20*i+10) : String(20*(i+1))
+    const matchHistory = await queryMatchList(puuid, begIndex, endIndex)
+    if (matchHistory.length === 0){
+      return specialDict
     }
+    specialDict = [...specialDict, ...matchHistory]
   }
-  if (mode === undefined) {
-    return simpleMatchList
-  } else {
-    return specialSimpleMatchList
-  }
+  return specialDict
 }

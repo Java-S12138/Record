@@ -2,12 +2,25 @@ import "./css/header.css"
 import { Tooltip,Input,Button,useToast } from '@chakra-ui/react'
 import icon from "../../assets/img/icon.png"
 import { appWindow } from '@tauri-apps/api/window'
-import {useContext, useRef} from "react";
+import {useContext, useRef, useState} from "react";
 import {invoke} from "@tauri-apps/api";
 import {lcuSummonerInfo} from "../../interface/SummonerInfo";
 import {AlterToSumId} from "./index";
+import { makeStyles, createStyles } from '@material-ui/core/styles';
+import Pagination from '@material-ui/lab/Pagination';
+const useStyles = makeStyles((theme) =>
+  createStyles({
+    root: {
+      '& button': {
+        fontFamily: "DingTalk"
+      },
+    },
+  }),
+)
 
-export default function () {
+export default function ({page,handleChange,localSumId,sumId}:
+{page:number,handleChange:any,localSumId:number,sumId:number}) {
+  const classes = useStyles()
   const alterToSumId = useContext(AlterToSumId)
   const inputRef = useRef<HTMLInputElement>(null)
   const toast = useToast()
@@ -45,8 +58,14 @@ export default function () {
     }
   }
 
+  const backEle = localSumId !== sumId
+    ? <div><Button size={'sm'} onClick={() => {alterToSumId(localSumId)}}
+                   colorScheme='blue' className='headerButton'>查看自己</Button></div>
+    : <div></div>
+
+
   return (
-    <div data-tauri-drag-region  className="flex">
+    <div data-tauri-drag-region  className="flex justify-between">
       <div className="flex h-10  items-center">
         <img className='w-10' srcSet={icon}/>
         <p className="ml-3 text-3xl font-bold text-zinc-600">Record</p>
@@ -58,10 +77,15 @@ export default function () {
       </div>
       {/*搜索*/}
       <div className='inputDiv'>
+        {backEle}
         <Input size={'sm'} width={'185px'} ref={inputRef} onKeyDown={handleKeyPress}
                style={{borderRadius:'0.375rem'}} placeholder='仅支持查询 当前大区玩家' />
         <Button size={'sm'} onClick={searchSum}
-                colorScheme='blue' style={{fontWeight:'400'}}>Enter</Button>
+                colorScheme='blue' className='headerButton'>Enter</Button>
+        <div className={classes.root}>
+          <Pagination count={20} page={page} shape="rounded" onChange={handleChange} />
+        </div>
+
       </div>
     </div>
   )

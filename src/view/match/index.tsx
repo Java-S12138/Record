@@ -1,6 +1,6 @@
 import RHeader from "./RHeader";
 import RExcelChamp from "./RExcelChamp";
-import {useState, useEffect,createContext} from "react";
+import {useState, useEffect, createContext, useRef} from "react";
 import RSummonerInfo from "./RSummonerInfo";
 import RMatchHistory from "./RMatchHistory";
 import {Grid, GridItem} from '@chakra-ui/react'
@@ -11,13 +11,19 @@ export const SumIdContext = createContext(0)
 export const AlterToSumId = createContext((sumId: number) => {})
 
 export const Match = () =>  {
+  const localSumId = useRef(0)
+  const [page,setPage] = useState(1)
   const [sumId,setSumId] = useState(0)
   const [sumInfoProps, setSumInfoProps] = useState<SumInfoRes>({} as SumInfoRes)
 
   useEffect(() => {
     const fetchSumInfo = async () => {
       const sumInfo: SumInfoRes = await querySummonerInfo(sumId)
+      if (sumId === 0) {
+        localSumId.current = sumInfo.sumInfo.currentId
+      }
       setSumInfoProps(sumInfo)
+      setPage(1)
     }
     fetchSumInfo()
 
@@ -27,6 +33,10 @@ export const Match = () =>  {
     if (summonerId!==sumId){
       setSumId(summonerId)
     }
+  }
+
+  const handleChange = (event: any, value: number) => {
+    setPage(value)
   }
 
   if (sumInfoProps.sumInfo === undefined ) {
@@ -46,7 +56,8 @@ export const Match = () =>  {
           h='626px'
           gap='12px'>
           <GridItem area={'header'}>
-            <RHeader/>
+            <RHeader page={page} localSumId={localSumId.current}
+                     handleChange={handleChange} sumId={sumInfoProps.sumInfo.currentId}/>
           </GridItem>
           <GridItem area={'main'}>
             <RSummonerInfo sumInfo={sumInfoProps.sumInfo}
@@ -57,7 +68,8 @@ export const Match = () =>  {
           </GridItem>
           <GridItem area={'nav'}>
             <SumIdContext.Provider value={sumInfoProps.sumInfo.currentId}>
-              <RMatchHistory puuid={sumInfoProps.sumInfo.puuid}/>
+              <RMatchHistory puuid={sumInfoProps.sumInfo.puuid}
+                             begIndex={String((page-1)*9)} endIndex={String(page*9)}/>
             </SumIdContext.Provider>
           </GridItem>
         </Grid>

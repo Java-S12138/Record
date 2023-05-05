@@ -8,7 +8,7 @@ import MatchSumDetail from "./components/MatchSumDetail";
 import {queryMatchList} from "../../utils/getMatchInfo";
 import {Drawer, DrawerBody, DrawerContent, DrawerOverlay, Grid, GridItem, useDisclosure} from '@chakra-ui/react';
 
-export default function ({puuid}: { puuid: string }) {
+export default function ({puuid,begIndex,endIndex}: { puuid: string,begIndex:string,endIndex:string }) {
   const [matchListProps, setMatchListProps] = useState<MatchList[]>([])
   const [currentGameId, setCurrentGameId] = useState('')
   const [matchIndex, setMatchIndex] = useState(0)
@@ -18,15 +18,14 @@ export default function ({puuid}: { puuid: string }) {
 
   useEffect(() => {
     const fetchMatchList = async () => {
-      const matchList = await queryMatchList(puuid, '0', '9')
-      if (matchList.length > 0) {
-        setMatchIndex(0)
-        setMatchListProps(matchList)
-        setCurrentGameId(matchList[0].gameId)
-      }
+      const matchList = await queryMatchList(puuid, begIndex, endIndex)
+      setMatchIndex(0)
+      setMatchListProps(matchList)
+      matchList.length > 0 ? setCurrentGameId(matchList[0].gameId) : setCurrentGameId('')
     }
     fetchMatchList()
-  }, [puuid])
+  }, [puuid,begIndex])
+
 
   const changeCurrentGameId = (gameId: string, matchIndex: number) => {
     if (gameId === currentGameId) {

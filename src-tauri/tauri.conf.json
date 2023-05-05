@@ -1,4 +1,5 @@
 {
+  "$schema": "../node_modules/@tauri-apps/cli/schema.json",
   "build": {
     "beforeDevCommand": "pnpm dev",
     "beforeBuildCommand": "pnpm build",
@@ -7,8 +8,8 @@
     "withGlobalTauri": false
   },
   "package": {
-    "productName": "tauri",
-    "version": "0.0.0"
+    "productName": "Record",
+    "version": "0.0.1"
   },
   "tauri": {
     "allowlist": {

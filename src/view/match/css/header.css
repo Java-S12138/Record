@@ -26,6 +26,14 @@
 .inputDiv {
     display: flex;
     align-items: center;
-    margin-left: 23px;
-    gap: 12px;
+    gap: 16px;
+}
+.headerButton {
+    font-weight: 400 !important;
+    background-color: rgba(31, 202, 188, 0.2) !important;
+    color:#1FCABC !important
+}
+
+.headerButton:hover {
+    background-color: rgba(31, 202, 188, 0.3) !important;
 }
