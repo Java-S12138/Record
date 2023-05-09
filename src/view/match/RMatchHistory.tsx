@@ -1,20 +1,15 @@
 import "./css/animation.css"
 import MatchListEle from "./components/MatchList";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 import MatchDetail from "./components/MatchDetail";
 import {MatchList} from "../../interface/MatchInfo";
-import {SumDetail} from "../../interface/MatchDetail";
-import MatchSumDetail from "./components/MatchSumDetail";
 import {queryMatchList} from "../../utils/getMatchInfo";
-import {Drawer, DrawerBody, DrawerContent, DrawerOverlay, Grid, GridItem, useDisclosure} from '@chakra-ui/react';
+import {Grid, GridItem} from '@chakra-ui/react';
 
-export default function ({puuid,begIndex,endIndex}: { puuid: string,begIndex:string,endIndex:string }) {
+export default function ({puuid,begIndex,endIndex,openSumDetailDrawer}: { puuid: string,begIndex:string,endIndex:string,openSumDetailDrawer:Function }) {
   const [matchListProps, setMatchListProps] = useState<MatchList[]>([])
   const [currentGameId, setCurrentGameId] = useState('')
   const [matchIndex, setMatchIndex] = useState(0)
-  const [sumDetail,setSumDetail] = useState({} as SumDetail)
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const btnRef = useRef(null)
 
   useEffect(() => {
     const fetchMatchList = async () => {
@@ -41,10 +36,7 @@ export default function ({puuid,begIndex,endIndex}: { puuid: string,begIndex:str
     }, 300)
   }
 
-  const openSumDetailDrawer = (sumDetail:SumDetail) => {
-    setSumDetail(sumDetail)
-    onOpen()
-  }
+
 
   if (currentGameId === '') {
     return (
@@ -69,22 +61,6 @@ export default function ({puuid,begIndex,endIndex}: { puuid: string,begIndex:str
           <MatchDetail key={currentGameId} gameId={currentGameId} openDrawer={openSumDetailDrawer}/>
         </GridItem>
       </Grid>
-
-      <Drawer
-        isOpen={isOpen}
-        placement='left'
-        onClose={onClose}
-        autoFocus={false}
-        finalFocusRef={btnRef}
-      >
-        <DrawerOverlay/>
-        <DrawerContent style={{width: '265px', borderTopRightRadius: '10px', borderBottomRightRadius: '10px'}}>
-          <DrawerBody style={{padding: '12px'}}>
-            <MatchSumDetail sumDetail={sumDetail} closeDrawer={onClose}/>
-          </DrawerBody>
-        </DrawerContent>
-      </Drawer>
-
     </div>
   )
 }

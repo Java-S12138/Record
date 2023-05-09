@@ -1,5 +1,15 @@
 import "./css/header.css"
-import { Tooltip,Input,Button,useToast } from '@chakra-ui/react'
+import {
+  Tooltip,
+  Input,
+  Button,
+  useToast,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalCloseButton, ModalBody
+} from '@chakra-ui/react'
 import icon from "../../assets/img/icon.png"
 import { appWindow } from '@tauri-apps/api/window'
 import {useContext, useRef, useState} from "react";
@@ -8,6 +18,8 @@ import {lcuSummonerInfo} from "../../interface/SummonerInfo";
 import {AlterToSumId} from "./index";
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Pagination from '@material-ui/lab/Pagination';
+import RNotification from "./RNotification";
+
 const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
@@ -21,6 +33,7 @@ const useStyles = makeStyles((theme) =>
 export default function ({page,handleChange,localSumId,sumId}:
 {page:number,handleChange:any,localSumId:number,sumId:number}) {
   const classes = useStyles()
+  const { isOpen, onOpen, onClose } = useDisclosure()
   const alterToSumId = useContext(AlterToSumId)
   const inputRef = useRef<HTMLInputElement>(null)
   const toast = useToast()
@@ -70,7 +83,7 @@ export default function ({page,handleChange,localSumId,sumId}:
         <img className='w-10' srcSet={icon}/>
         <p className="ml-3 text-3xl font-bold text-zinc-600">Record</p>
         <div className="rounded-full flex roundMDiv roundFont" onClick={() => appWindow.minimize()}>-</div>
-        <div className="rounded-full flex roundODiv roundFont" onClick={() => appWindow.minimize()}>o</div>
+        <div className="rounded-full flex roundODiv roundFont" onClick={onOpen}>o</div>
         <Tooltip label='下次见' placement='left' bg='#ff6666'>
           <div className="rounded-full flex roundCDiv roundFont" onClick={() => appWindow.close()}>x</div>
         </Tooltip>
@@ -87,6 +100,17 @@ export default function ({page,handleChange,localSumId,sumId}:
         </div>
 
       </div>
+
+
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalCloseButton />
+          <ModalBody>
+            <RNotification/>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </div>
   )
 }
