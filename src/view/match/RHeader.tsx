@@ -8,17 +8,18 @@ import {
   Modal,
   ModalOverlay,
   ModalContent,
-  ModalCloseButton, ModalBody
+  ModalBody
 } from '@chakra-ui/react'
 import icon from "../../assets/img/icon.png"
 import { appWindow } from '@tauri-apps/api/window'
-import {useContext, useRef, useState} from "react";
+import {useContext, useRef,useEffect} from "react";
 import {invoke} from "@tauri-apps/api";
 import {lcuSummonerInfo} from "../../interface/SummonerInfo";
 import {AlterToSumId} from "./index";
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Pagination from '@material-ui/lab/Pagination';
 import RNotification from "./RNotification";
+
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -37,6 +38,14 @@ export default function ({page,handleChange,localSumId,sumId}:
   const alterToSumId = useContext(AlterToSumId)
   const inputRef = useRef<HTMLInputElement>(null)
   const toast = useToast()
+
+  useEffect(() => {
+    const fetchNotice = async () => {
+      const notice = await invoke("get_notice")
+      console.log(notice)
+    }
+    fetchNotice()
+  }, [])
 
   const searchSum = async () => {
     if ( inputRef.current ===null){
@@ -102,10 +111,10 @@ export default function ({page,handleChange,localSumId,sumId}:
       </div>
 
 
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} size={'3xl'} autoFocus={false}>
         <ModalOverlay />
         <ModalContent>
-          <ModalCloseButton />
+          {/*<ModalCloseButton />*/}
           <ModalBody>
             <RNotification/>
           </ModalBody>

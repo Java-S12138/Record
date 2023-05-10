@@ -5,6 +5,9 @@ use tauri::{command};
 use serde_json::Value;
 use invoke_lcu::RESTClient;
 use lazy_static::lazy_static;
+use serde::{Deserialize,Serialize};
+use std::time::{SystemTime, UNIX_EPOCH};
+
 
 lazy_static!{
     static ref REST_CLIENT:RESTClient = RESTClient::new().unwrap();
@@ -73,4 +76,13 @@ pub async fn get_match_detail(game_id:String) -> Result<Value, String> {
     Ok(res)
 }
 
-
+#[command]
+pub fn get_notice() -> Result<Value,String>  {
+    let now = SystemTime::now();
+    let timestamp = now.duration_since(UNIX_EPOCH)
+        .expect("12138")
+        .as_secs();
+    let url = format!("https://frank-notice-1302853015.cos.ap-chongqing.myqcloud.com/record.json?data={}", timestamp);
+    let response = reqwest::blocking::get(url).unwrap().json::<Value>().unwrap();
+    Ok(response)
+}

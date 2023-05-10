@@ -2,6 +2,7 @@ import {Image, Table, TableContainer, Tag, Tbody, Td, Tr,Button} from "@chakra-u
 import {SumDetail} from "../../../interface/MatchDetail";
 import {useContext} from "react";
 import {AlterToSumId} from "../index";
+import {open} from "@tauri-apps/api/shell";
 
 export default function ({sumDetail,closeDrawer}:{sumDetail:SumDetail,closeDrawer:Function}) {
   const alterToSumId = useContext(AlterToSumId)
@@ -98,7 +99,8 @@ export default function ({sumDetail,closeDrawer}:{sumDetail:SumDetail,closeDrawe
       <div className='flex justify-between' style={{marginTop:'10px'}}>
         <Button size={'sm'} style={{fontWeight:'400',height:'30px'}}
                 colorScheme='twitter' onClick={() => {changeSumId(sumDetail.summonerId)}}>查看详细战绩</Button>
-        <Button size={'sm'} colorScheme='red' style={{fontWeight:'400',height:'30px',
+        <Button onClick={() => {open('https://lolfrank.cn')}}
+          size={'sm'} colorScheme='red' style={{fontWeight:'400',height:'30px',
           backgroundColor:'#ff6666',color:'#fff'}}>了解更多功能</Button>
       </div>
     </div>

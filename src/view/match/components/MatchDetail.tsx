@@ -32,6 +32,7 @@ export default function ({gameId,openDrawer}:{gameId:string,openDrawer:Function}
   if (participantsInfo?.headerInfo === undefined){
     return (
       <div>
+        Null
       </div>
     )
   }

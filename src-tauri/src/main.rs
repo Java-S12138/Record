@@ -20,6 +20,7 @@ fn main() {
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
+            by_lcu::get_notice,
             by_lcu::is_lcu_success,
             by_lcu::get_cur_sum,
             by_lcu::get_other_sum,
