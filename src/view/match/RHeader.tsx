@@ -1,6 +1,7 @@
 import "./css/header.css"
 import {
   Tooltip,
+  Tag,
   Input,
   Button,
   useToast,
@@ -12,9 +13,9 @@ import {
 } from '@chakra-ui/react'
 import icon from "../../assets/img/icon.png"
 import { appWindow } from '@tauri-apps/api/window'
-import {useContext, useRef,useEffect} from "react";
+import {useContext, useRef, useEffect, useState} from "react";
 import {invoke} from "@tauri-apps/api";
-import {lcuSummonerInfo} from "../../interface/SummonerInfo";
+import {lcuSummonerInfo,NoticeTypes} from "../../interface/SummonerInfo";
 import {AlterToSumId} from "./index";
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Pagination from '@material-ui/lab/Pagination';
@@ -37,12 +38,13 @@ export default function ({page,handleChange,localSumId,sumId}:
   const { isOpen, onOpen, onClose } = useDisclosure()
   const alterToSumId = useContext(AlterToSumId)
   const inputRef = useRef<HTMLInputElement>(null)
+  const [notice,setNotice] = useState({} as NoticeTypes)
   const toast = useToast()
 
   useEffect(() => {
     const fetchNotice = async () => {
-      const notice = await invoke("get_notice")
-      console.log(notice)
+      const notice:NoticeTypes = await invoke("get_notice")
+      setNotice(notice)
     }
     fetchNotice()
   }, [])
@@ -88,14 +90,12 @@ export default function ({page,handleChange,localSumId,sumId}:
 
   return (
     <div data-tauri-drag-region  className="flex justify-between">
-      <div className="flex h-10  items-center">
-        <img className='w-10' srcSet={icon}/>
-        <p className="ml-3 text-3xl font-bold text-zinc-600">Record</p>
-        <div className="rounded-full flex roundMDiv roundFont" onClick={() => appWindow.minimize()}>-</div>
-        <div className="rounded-full flex roundODiv roundFont" onClick={onOpen}>o</div>
-        <Tooltip label='下次见' placement='left' bg='#ff6666'>
-          <div className="rounded-full flex roundCDiv roundFont" onClick={() => appWindow.close()}>x</div>
-        </Tooltip>
+      <div className="flex h-10  items-center justify-between" style={{width:'252px'}}>
+        <div className='flex'>
+          <img className='w-10' srcSet={icon}/>
+          <p className="ml-3 text-3xl font-bold text-zinc-600">Record</p>
+        </div>
+        <Tag variant='NError' className='cursor-pointer' onClick={onOpen}>更多功能</Tag>
       </div>
       {/*搜索*/}
       <div className='inputDiv'>
@@ -107,16 +107,21 @@ export default function ({page,handleChange,localSumId,sumId}:
         <div className={classes.root}>
           <Pagination count={20} page={page} shape="rounded" onChange={handleChange} />
         </div>
-
+        <div className='flex gap-3'>
+          <div className="rounded-full flex roundMDiv roundFont" onClick={() => appWindow.minimize()}>-</div>
+          <div className="rounded-full flex roundODiv roundFont" onClick={onOpen}>o</div>
+          <Tooltip label='下次见~' placement='left' bg='#ff6666'>
+            <div className="rounded-full flex roundCDiv roundFont" onClick={() => appWindow.close()}>x</div>
+          </Tooltip>
+        </div>
       </div>
 
 
       <Modal isOpen={isOpen} onClose={onClose} size={'3xl'} autoFocus={false}>
         <ModalOverlay />
         <ModalContent>
-          {/*<ModalCloseButton />*/}
           <ModalBody>
-            <RNotification/>
+            <RNotification notice={notice}/>
           </ModalBody>
         </ModalContent>
       </Modal>

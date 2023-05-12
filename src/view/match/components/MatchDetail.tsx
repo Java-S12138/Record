@@ -1,38 +1,26 @@
 import MatchDetailItem from "./MatchDetailItem";
 import MatchDetailHeader from "./MatchDetailHeader";
-import {useEffect, useRef, useState} from "react";
-import {queryGameDetail} from "../../../utils/getMatchDetail";
+import {useRef, useState} from "react";
 import {ParticipantsInfo} from "../../../interface/MatchDetail";
 
-export default function ({gameId,openDrawer}:{gameId:string,openDrawer:Function}) {
-  const [participantsInfo,setParticipantsInfo] = useState({} as ParticipantsInfo)
+export default function ({participantsInfo,openDrawer}:{participantsInfo:ParticipantsInfo,openDrawer:Function}) {
   const arr = [['tddtc','输出伤害'],['tdt','承受伤害'],['ge','商店存款'],['vs','视野得分'],['tmk','击杀小兵']]
   const [showType,setShowType] = useState(['tddtc','输出伤害'])
   const showTypeIndex= useRef(0)
-
-
-  useEffect(() => {
-    const fetchMatchDetail = async () => {
-      const gameDetail = await queryGameDetail(gameId)
-      if (gameDetail !== null){
-        setParticipantsInfo(gameDetail)
-      }
-    }
-    fetchMatchDetail()
-
-  },[gameId])
 
   const switchShowType = () => {
     const rotatedIndex = (showTypeIndex.current += 1) % arr.length
     setShowType(arr[rotatedIndex])
   }
 
-
+  if (participantsInfo?.headerInfo?.length === 1){
+    return (<div></div>)
+  }
 
   if (participantsInfo?.headerInfo === undefined){
     return (
-      <div>
-        Null
+      <div className='divContentCenter'>
+        获取当前战绩数据异常, 404 Not Found<br/>请在左侧切换其它战绩, 尝试再次获取数据...
       </div>
     )
   }

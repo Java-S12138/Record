@@ -37,3 +37,12 @@ export interface SumInfoRes {
   rankPoint:string[],
   excelChamp:ExcelChamp[]
 }
+
+interface NoticeTypes {
+  button_content: string;
+  content: string;
+  is_button: boolean;
+  is_show: boolean;
+  url: string;
+  variant: string;
+}

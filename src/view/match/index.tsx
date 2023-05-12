@@ -4,7 +4,7 @@ import {useState, useEffect, createContext, useRef} from "react";
 import RSummonerInfo from "./RSummonerInfo";
 import RMatchHistory from "./RMatchHistory";
 import {Drawer, DrawerBody, DrawerContent, DrawerOverlay, Grid, GridItem,
-  useDisclosure,  Modal, ModalOverlay, ModalContent, ModalBody, ModalCloseButton,} from '@chakra-ui/react'
+  useDisclosure} from '@chakra-ui/react'
 import {SumInfoRes} from "../../interface/SummonerInfo";
 import {querySummonerInfo} from "../../utils/getSumInfo";
 import MatchSumDetail from "./components/MatchSumDetail";

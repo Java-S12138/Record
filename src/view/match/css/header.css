@@ -1,17 +1,14 @@
 .roundMDiv {
     background:rgba(32, 128, 240, 0.12);
     color:#66B3FF;
-    margin-left: 30px;
 }
 .roundCDiv {
     background:rgba(255, 102, 102, 0.12);
     color:#ff6666;
-    margin-left: 10px;
 }
 .roundODiv {
     background:rgba(31, 202, 188, 0.12);
     color:#1FCABC;
-    margin-left: 10px;
 }
 .roundFont {
     font-size:10px;
