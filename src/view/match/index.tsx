@@ -19,6 +19,7 @@ export const Match = () =>  {
   const [sumId,setSumId] = useState(0)
   const [sumInfoProps, setSumInfoProps] = useState<SumInfoRes>({} as SumInfoRes)
   const [sumDetail,setSumDetail] = useState({} as SumDetail)
+  const [matchMode,setMatchMode] = useState('0')
   const { isOpen, onOpen, onClose } = useDisclosure()
   const btnRef = useRef(null)
 
@@ -38,6 +39,7 @@ export const Match = () =>  {
   // 切换查询的召唤师
   const setSetSumId = (summonerId:number) => {
     if (summonerId!==sumId){
+      setMatchMode('0')
       setSumId(summonerId)
     }
   }
@@ -68,7 +70,7 @@ export const Match = () =>  {
           h='626px'
           gap='12px'>
           <GridItem area={'header'}>
-            <RHeader page={page} localSumId={localSumId.current}
+            <RHeader page={page} localSumId={localSumId.current} matchMode={matchMode} handleSelect={setMatchMode}
                      handleChange={handleChange} sumId={sumInfoProps.sumInfo.currentId}/>
           </GridItem>
           <GridItem area={'main'}>
@@ -81,7 +83,7 @@ export const Match = () =>  {
           <GridItem area={'nav'}>
             <SumIdContext.Provider value={sumInfoProps.sumInfo.currentId}>
               <RMatchHistory puuid={sumInfoProps.sumInfo.puuid} openSumDetailDrawer={openSumDetailDrawer}
-                             begIndex={String((page-1)*9)} endIndex={String(page*9)}/>
+                             begIndex={String((page-1)*9)} endIndex={String(page*9)} matchMode={matchMode}/>
             </SumIdContext.Provider>
           </GridItem>
         </Grid>

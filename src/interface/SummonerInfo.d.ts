@@ -13,7 +13,7 @@ export interface lcuSummonerInfo {
   unnamed: boolean;
   xpSinceLastLevel: number;
   xpUntilNextLevel: number;
-  httpStatus?:number
+  httpStatus?: number
 }
 
 interface SumReslut {
@@ -25,24 +25,34 @@ interface SumReslut {
   puuid: string;
   currentId: number;
 }
+
 interface ExcelChamp {
   champImgUrl: string,
   champLevel: string,
   championPoints: string,
-  champLabel:string
+  champLabel: string
 }
 
 export interface SumInfoRes {
-  sumInfo:SumReslut,
-  rankPoint:string[],
-  excelChamp:ExcelChamp[]
+  sumInfo: SumReslut,
+  rankPoint: string[],
+  excelChamp: ExcelChamp[]
 }
 
-interface NoticeTypes {
+export interface NoticeTypes {
   button_content: string;
   content: string;
   is_button: boolean;
   is_show: boolean;
   url: string;
   variant: string;
+}
+
+export interface HeaderTypes {
+  page: number,
+  handleChange: any,
+  localSumId: number,
+  sumId: number,
+  matchMode: string,
+  handleSelect:any
 }

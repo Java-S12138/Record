@@ -1,7 +1,6 @@
 import { invoke } from '@tauri-apps/api';
 import {LcuMatchList,MatchList,Game} from "../interface/MatchInfo";
 import {queryGameType} from "./tool";
-import {champDict} from "../assets/champList"
 
 // 根据召唤师ID查询战绩
 const getMatchList = async (puuid: string, begIndex: string, endIndex: string): Promise<LcuMatchList|null> => {
@@ -23,7 +22,7 @@ const timestampToDate = (timestamp: number) => {
 const getSimpleMatch = (match: Game,gameModel:string):MatchList => {
   return {
     gameId: String(match.gameId),
-    champImgUrl: `https://game.gtimg.cn/images/lol/act/img/champion/${champDict[match.participants[0].championId].alias}.png`,
+    champId: String(match.participants[0].championId),
     // 是否取得胜利
     isWin: match.participants[0].stats.win === true ? true : false,
     // 击杀数目
@@ -40,7 +39,7 @@ const getSimpleMatch = (match: Game,gameModel:string):MatchList => {
 }
 
 // 处理战绩数据
-export const queryMatchList = async (puuid: string, begIndex: string, endIndex: string):Promise<Array<MatchList> | []>  => {
+export const queryMatchList = async (puuid: string, begIndex: string, endIndex: string):Promise<MatchList[] | []>  => {
   const matchList = await getMatchList(puuid, begIndex, endIndex)
 
   if (matchList === null) {return []}
@@ -54,20 +53,4 @@ export const queryMatchList = async (puuid: string, begIndex: string, endIndex: 
   }
 
   return simpleMatchList
-}
-
-// 查看特定模式的战绩
-export const queryMatchHistory = async (puuid: string, mode?: string):Promise<MatchList[]> => {
-  let specialDict:MatchList[] = []
-
-  for (let i = 0; i < 5; i++) {
-    const begIndex = String(20*i)
-    const endIndex = i===4 ? String(20*i+10) : String(20*(i+1))
-    const matchHistory = await queryMatchList(puuid, begIndex, endIndex)
-    if (matchHistory.length === 0){
-      return specialDict
-    }
-    specialDict = [...specialDict, ...matchHistory]
-  }
-  return specialDict
 }

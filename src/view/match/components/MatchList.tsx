@@ -1,6 +1,7 @@
 import "../css/match.css"
 import {MatchList} from "../../../interface/MatchInfo";
 import {Image, Table, TableContainer, Tag,Tr,Divider, Tbody} from "@chakra-ui/react";
+import {champDict} from "../../../assets/champList";
 
 export default function ({matchList,matchIndex,setGameId}:{matchList:MatchList[],matchIndex:number,setGameId:Function},) {
   const matchListElement = matchList.map((match,index) => {
@@ -17,7 +18,7 @@ export default function ({matchList,matchIndex,setGameId}:{matchList:MatchList[]
         <td onClick={() => {setGameId(match.gameId,index)}}>
           <div style={stylyPadding} className="flex justify-between">
           <Image className='rounded'
-                 boxSize='40px' src={match.champImgUrl}/>
+                 boxSize='40px' src={getImgUrl(match.champId)}/>
           <div className='flex flex-col justify-between'>
             <div className='flex justify-between' style={{width:'133px'}}>
               <Tag
@@ -58,4 +59,8 @@ export default function ({matchList,matchIndex,setGameId}:{matchList:MatchList[]
       </TableContainer>
     </div>
   )
+}
+
+const getImgUrl = (champId:string) => {
+  return `https://game.gtimg.cn/images/lol/act/img/champion/${champDict[champId].alias}.png`
 }

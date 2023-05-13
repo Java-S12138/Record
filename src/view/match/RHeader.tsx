@@ -1,21 +1,12 @@
 import "./css/header.css"
 import {
-  Tooltip,
-  Tag,
-  Input,
-  Button,
-  useToast,
-  useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalBody
-} from '@chakra-ui/react'
+  Tooltip, Tag, Input, Button, useToast, useDisclosure, Modal, ModalOverlay,
+  ModalContent, ModalBody, Select,} from '@chakra-ui/react'
 import icon from "../../assets/img/icon.png"
 import { appWindow } from '@tauri-apps/api/window'
 import {useContext, useRef, useEffect, useState} from "react";
 import {invoke} from "@tauri-apps/api";
-import {lcuSummonerInfo,NoticeTypes} from "../../interface/SummonerInfo";
+import {lcuSummonerInfo,NoticeTypes,HeaderTypes} from "../../interface/SummonerInfo";
 import {AlterToSumId} from "./index";
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Pagination from '@material-ui/lab/Pagination';
@@ -32,12 +23,12 @@ const useStyles = makeStyles((theme) =>
   }),
 )
 
-export default function ({page,handleChange,localSumId,sumId}:
-{page:number,handleChange:any,localSumId:number,sumId:number}) {
+export default function ({page,handleChange,localSumId,sumId,matchMode,handleSelect}:HeaderTypes) {
   const classes = useStyles()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const alterToSumId = useContext(AlterToSumId)
-  const inputRef = useRef<HTMLInputElement>(null)
+  const [inputValue, setInputValue] = useState('')
+  const [isDisable , setIsDisable] = useState(false)
   const [notice,setNotice] = useState({} as NoticeTypes)
   const toast = useToast()
 
@@ -50,20 +41,18 @@ export default function ({page,handleChange,localSumId,sumId}:
   }, [])
 
   const searchSum = async () => {
-    if ( inputRef.current ===null){
-      return
-    }
-
-    const name = inputRef.current.value
-    if (name === ''){
+    setIsDisable(false)
+    if (inputValue === ''){
       toast({
         description: "当前召唤师昵称为空",
         status: 'error',
         duration: 2000,
         containerStyle:{fontSize:'14px',minWidth:'0px',paddingBottom:'4px'}
       })
+      return
     }
-    const sumInfo:lcuSummonerInfo = await invoke('get_other_sum_by_name',{name:name})
+
+    const sumInfo:lcuSummonerInfo = await invoke('get_other_sum_by_name',{name:inputValue})
     if (sumInfo?.httpStatus===404){
       toast({
         description: "当前召唤师不存在",
@@ -71,9 +60,11 @@ export default function ({page,handleChange,localSumId,sumId}:
         duration: 2000,
         containerStyle:{fontSize:'14px',minWidth:'0px',paddingBottom:'4px'}
       })
+      setInputValue('')
+      return
     }
     alterToSumId(sumInfo.summonerId)
-    inputRef.current.value = ''
+    setInputValue('')
   }
 
   const handleKeyPress = (event:any) => {
@@ -82,9 +73,20 @@ export default function ({page,handleChange,localSumId,sumId}:
     }
   }
 
+  // 监听 input 的 onChange 事件
+  const handleInputChange = (event:any) =>  {
+    event.target.value === '' ? setIsDisable(false) : setIsDisable(true)
+    setInputValue(event.target.value)
+  }
+
+  const handleMatchSelect =(event:any) => {
+    handleChange(null,1)
+    handleSelect(event.target.value)
+  }
+
   const backEle = localSumId !== sumId
     ? <div><Button size={'sm'} onClick={() => {alterToSumId(localSumId)}}
-                   colorScheme='blue' className='headerButton'>查看自己</Button></div>
+                   colorScheme='telegram' className='headerButton'>查看自己</Button></div>
     : <div></div>
 
 
@@ -100,10 +102,20 @@ export default function ({page,handleChange,localSumId,sumId}:
       {/*搜索*/}
       <div className='inputDiv'>
         {backEle}
-        <Input size={'sm'} width={'185px'} ref={inputRef} onKeyDown={handleKeyPress}
-               style={{borderRadius:'0.375rem'}} placeholder='仅支持查询 当前大区玩家' />
+        <Input size={'sm'} width={'172px'} value={inputValue} onChange={handleInputChange} onKeyDown={handleKeyPress}
+               style={{borderRadius:'0.375rem',fontSize:'13px'}} placeholder='仅支持查询 当前大区玩家' />
         <Button size={'sm'} onClick={searchSum}
-                colorScheme='blue' className='headerButton'>Enter</Button>
+                colorScheme='telegram' className='headerButton'>搜索</Button>
+
+        <Select value={matchMode} isDisabled={isDisable}  onChange={handleMatchSelect}
+                variant='outline' size='sm' width='100px'>
+          <option value='0'>全部模式</option>
+          <option value='420'>单双排位</option>
+          <option value='440'>灵活排位</option>
+          <option value='450'>极地乱斗</option>
+          <option value='430'>匹配模式</option>
+        </Select>
+
         <div className={classes.root}>
           <Pagination count={20} page={page} shape="rounded" onChange={handleChange} />
         </div>

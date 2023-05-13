@@ -1,9 +1,9 @@
 export interface MatchItem {
   isLeft: boolean
   detailInfo: SummonerDetailInfo[],
-  showTypeKey:string,
-  showTypeIndex:number,
-  querySumDetail:Function
+  showTypeKey: string,
+  showTypeIndex: number,
+  querySumDetail: Function
 }
 
 export interface MaxValueList {
@@ -283,4 +283,12 @@ export interface ParticipantsInfo {
   teamOne: SummonerDetailInfo[],
   teamTwo: SummonerDetailInfo[],
   headerInfo: string[]
+}
+
+export interface MatchHistoryTypes {
+  puuid: string,
+  begIndex: string,
+  endIndex: string,
+  openSumDetailDrawer: Function,
+  matchMode: string
 }

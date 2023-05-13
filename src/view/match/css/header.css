@@ -27,10 +27,12 @@
 }
 .headerButton {
     font-weight: 400 !important;
-    background-color: rgba(31, 202, 188, 0.2) !important;
-    color:#1FCABC !important
+    font-size: 13px !important;
 }
-
-.headerButton:hover {
-    background-color: rgba(31, 202, 188, 0.3) !important;
+.inputDiv select {
+    border-radius: 6px;
+    font-size: 13px !important;
+}
+.inputDiv option {
+    padding: 5px;
 }

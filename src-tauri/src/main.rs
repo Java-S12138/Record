@@ -29,6 +29,7 @@ fn main() {
             by_lcu::get_excel_champ,
             by_lcu::get_match_list,
             by_lcu::get_match_detail,
+            by_lcu::get_special_match,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

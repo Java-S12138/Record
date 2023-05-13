@@ -1,9 +1,8 @@
-use crate::{
-    lcu::invoke_lcu
-};
+use crate::{lcu::invoke_lcu,lcu::query_match};
 use tauri::{command};
 use serde_json::Value;
 use invoke_lcu::RESTClient;
+use query_match::MatchList;
 use lazy_static::lazy_static;
 use std::time::{SystemTime, UNIX_EPOCH};
 
@@ -76,7 +75,7 @@ pub async fn get_match_detail(game_id:String) -> Result<Value, String> {
 }
 
 #[command]
-pub fn get_notice() -> Result<Value,String>  {
+pub fn get_notice() -> Result<Value,String> {
     let now = SystemTime::now();
     let timestamp = now.duration_since(UNIX_EPOCH)
         .expect("12138")
@@ -84,4 +83,17 @@ pub fn get_notice() -> Result<Value,String>  {
     let url = format!("https://frank-notice-1302853015.cos.ap-chongqing.myqcloud.com/record.json?data={}", timestamp);
     let response = reqwest::blocking::get(url).unwrap().json::<Value>().unwrap();
     Ok(response)
+}
+
+#[command]
+pub async fn get_special_match(puuid:String,queue_id:i64) -> Result<Vec<MatchList>,String > {
+    let client = &*REST_CLIENT;
+    let mut match_vec:Vec<MatchList> = Vec::new();
+    for i in 0..=4 {
+        let url = format!("/lol-match-history/v1/products/lol/{}/matches?begIndex={}&endIndex={}",puuid,i*20,(i+1)*20);
+        let mut match_s=client.get_match_list(url).await.unwrap();
+        println!("{}", i);
+        match_vec.extend(match_s.get_simple_match(queue_id));
+    };
+    Ok(match_vec)
 }

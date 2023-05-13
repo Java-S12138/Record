@@ -11,7 +11,6 @@ export const querySummonerInfo = async (sumId:number):Promise<SumInfoRes> => {
     await Promise.all([getSumInfo(summonerInfo),
       getRankPoint(summonerInfo.puuid),
       getExcelChamp(`${summonerInfo.summonerId}`)])
-
   return {sumInfo,rankPoint,excelChamp}
 }
 

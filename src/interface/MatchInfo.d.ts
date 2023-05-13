@@ -207,7 +207,7 @@ export interface LcuMatchList {
 }
 export interface MatchList {
   gameId: string;
-  champImgUrl: string;
+  champId: string;
   isWin: boolean;
   kills: number;
   deaths: number;
