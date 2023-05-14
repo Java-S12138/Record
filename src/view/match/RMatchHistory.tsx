@@ -8,7 +8,7 @@ import {Grid, GridItem} from '@chakra-ui/react';
 import {ParticipantsInfo, MatchHistoryTypes} from "../../interface/MatchDetail";
 import {queryGameDetail} from "../../utils/getMatchDetail";
 import {invoke} from "@tauri-apps/api";
-
+import {queryGameType} from "../../utils/tool";
 
 
 export default function ({puuid, begIndex, endIndex, openSumDetailDrawer, matchMode}: MatchHistoryTypes) {
@@ -21,7 +21,7 @@ export default function ({puuid, begIndex, endIndex, openSumDetailDrawer, matchM
   useEffect(() => {
     const fetchMatchList = async () => {
       const matchList = await queryMatchList(puuid, begIndex, endIndex)
-      handleMatchList(matchList)
+      handleMatchList(matchList,true)
     }
 
     const fetchSpecialMatchList = async () => {
@@ -30,9 +30,9 @@ export default function ({puuid, begIndex, endIndex, openSumDetailDrawer, matchM
         specialMatch.current.matchList = await invoke('get_special_match',{puuid:puuid,queueId:Number(matchMode)})
       }
       const matchList = specialMatch.current.matchList.slice(Number(begIndex),Number(endIndex))
-      handleMatchList(matchList)
+      handleMatchList(matchList,false)
     }
-
+    console.log('执行了...')
     if (matchMode !== '0'){
       fetchSpecialMatchList()
     }else {
@@ -65,7 +65,7 @@ export default function ({puuid, begIndex, endIndex, openSumDetailDrawer, matchM
     }, 300)
   }
 
-  const handleMatchList = (matchList:MatchList[]) => {
+  const handleMatchList = (matchList:MatchList[],isCommon:boolean) => {
     setMatchIndex(0)
     setMatchListProps(matchList)
 
@@ -77,8 +77,10 @@ export default function ({puuid, begIndex, endIndex, openSumDetailDrawer, matchM
           setParticipantsInfo(detail)
         }
       })
-    } else {
+    } else if (isCommon) {
       setCurrentGameId('error')
+    }else if (!isCommon){
+      setCurrentGameId('none')
     }
   }
 
@@ -89,7 +91,13 @@ export default function ({puuid, begIndex, endIndex, openSumDetailDrawer, matchM
         无数据响应, 或许与英雄联盟服务器有关
       </div>
     )
-  } else if (currentGameId === '') {
+  } else if (currentGameId === 'none') {
+    return (
+      <div className='divContentCenter'>
+        [ {queryGameType(Number(matchMode))} ] 当前页数下, 此召唤师的战绩为空
+      </div>
+    )
+  }else if (currentGameId === ''){
     return (<></>)
   }
 
@@ -105,7 +113,7 @@ export default function ({puuid, begIndex, endIndex, openSumDetailDrawer, matchM
         </GridItem>
 
         <GridItem colSpan={4} id='matchDetail'>
-          <MatchDetail key={currentGameId} participantsInfo={participantsInfo} openDrawer={openSumDetailDrawer}/>
+          <MatchDetail key={matchIndex} participantsInfo={participantsInfo} openDrawer={openSumDetailDrawer}/>
         </GridItem>
       </Grid>
     </div>

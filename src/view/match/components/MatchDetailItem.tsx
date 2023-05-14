@@ -50,7 +50,6 @@ export default function ({isLeft,detailInfo,showTypeKey,showTypeIndex,querySumDe
               {summoner.champLevel}
             </div>
           </div>
-
           <div className='grow flex flex-col justify-between'>
             {/*装备*/}
             <div className='flex justify-between pr-0.5'>

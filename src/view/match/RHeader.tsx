@@ -4,13 +4,14 @@ import {
   ModalContent, ModalBody, Select,} from '@chakra-ui/react'
 import icon from "../../assets/img/icon.png"
 import { appWindow } from '@tauri-apps/api/window'
-import {useContext, useRef, useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {invoke} from "@tauri-apps/api";
 import {lcuSummonerInfo,NoticeTypes,HeaderTypes} from "../../interface/SummonerInfo";
 import {AlterToSumId} from "./index";
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Pagination from '@material-ui/lab/Pagination';
 import RNotification from "./RNotification";
+import {open} from "@tauri-apps/api/shell";
 
 
 const useStyles = makeStyles((theme) =>
@@ -85,28 +86,28 @@ export default function ({page,handleChange,localSumId,sumId,matchMode,handleSel
   }
 
   const backEle = localSumId !== sumId
-    ? <div><Button size={'sm'} onClick={() => {alterToSumId(localSumId)}}
-                   colorScheme='telegram' className='headerButton'>查看自己</Button></div>
-    : <div></div>
+    ? <Button size={'sm'} onClick={() => {alterToSumId(localSumId)}}
+                   colorScheme='twitter' className='headerButton' style={{marginLeft:'9px'}}>查看自己</Button>
+    : <Tag variant='NError' style={{height:'32px',marginLeft:'13px'}}
+           className='cursor-pointer' onClick={onOpen}>更多功能</Tag>
 
 
   return (
     <div data-tauri-drag-region  className="flex justify-between">
       <div className="flex h-10  items-center justify-between" style={{width:'252px'}}>
-        <div className='flex'>
+        <div className='flex justify-between items-center' style={{width:'250px',height:'40px'}}>
           <img className='w-10' srcSet={icon}/>
-          <p className="ml-3 text-3xl font-bold text-zinc-600">Record</p>
+          <p className="text-3xl font-bold text-zinc-600">Record</p>
+          <div className='webSiteDiv'onClick={() => {open('https://lolfrank.cn')}}>lolfrank.cn</div>
         </div>
-        <Tag variant='NError' className='cursor-pointer' onClick={onOpen}>更多功能</Tag>
       </div>
       {/*搜索*/}
       <div className='inputDiv'>
-        {backEle}
+        {/*{backEle}*/}
         <Input size={'sm'} width={'172px'} value={inputValue} onChange={handleInputChange} onKeyDown={handleKeyPress}
                style={{borderRadius:'0.375rem',fontSize:'13px'}} placeholder='仅支持查询 当前大区玩家' />
         <Button size={'sm'} onClick={searchSum}
                 colorScheme='telegram' className='headerButton'>搜索</Button>
-
         <Select value={matchMode} isDisabled={isDisable}  onChange={handleMatchSelect}
                 variant='outline' size='sm' width='100px'>
           <option value='0'>全部模式</option>
@@ -115,6 +116,7 @@ export default function ({page,handleChange,localSumId,sumId,matchMode,handleSel
           <option value='450'>极地乱斗</option>
           <option value='430'>匹配模式</option>
         </Select>
+        {backEle}
 
         <div className={classes.root}>
           <Pagination count={20} page={page} shape="rounded" onChange={handleChange} />

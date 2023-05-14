@@ -92,7 +92,6 @@ pub async fn get_special_match(puuid:String,queue_id:i64) -> Result<Vec<MatchLis
     for i in 0..=4 {
         let url = format!("/lol-match-history/v1/products/lol/{}/matches?begIndex={}&endIndex={}",puuid,i*20,(i+1)*20);
         let mut match_s=client.get_match_list(url).await.unwrap();
-        println!("{}", i);
         match_vec.extend(match_s.get_simple_match(queue_id));
     };
     Ok(match_vec)

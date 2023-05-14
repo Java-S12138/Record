@@ -31,6 +31,7 @@ export const Match = () =>  {
       }
       setSumInfoProps(sumInfo)
       setPage(1)
+      setMatchMode('0')
     }
     fetchSumInfo()
 
@@ -38,8 +39,7 @@ export const Match = () =>  {
 
   // 切换查询的召唤师
   const setSetSumId = (summonerId:number) => {
-    if (summonerId!==sumId){
-      setMatchMode('0')
+    if (summonerId !== sumId){
       setSumId(summonerId)
     }
   }

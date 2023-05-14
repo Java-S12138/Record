@@ -42,7 +42,7 @@
 }
 
 .matchContain {
-    height: calc(100% - 2px);
+    height: 464px;
     display: flex;
     justify-content: space-between;
 }
