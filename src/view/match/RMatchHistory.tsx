@@ -32,7 +32,6 @@ export default function ({puuid, begIndex, endIndex, openSumDetailDrawer, matchM
       const matchList = specialMatch.current.matchList.slice(Number(begIndex),Number(endIndex))
       handleMatchList(matchList,false)
     }
-    console.log('执行了...')
     if (matchMode !== '0'){
       fetchSpecialMatchList()
     }else {
@@ -86,14 +85,14 @@ export default function ({puuid, begIndex, endIndex, openSumDetailDrawer, matchM
 
   if (currentGameId === 'error') {
     return (
-      <div className='divContentCenter'>
+      <div className='p-3 bg-white h-full w-full boxShadow divContentCenter'>
         可尝试按下, Ctrl+R 刷新页面<br/>
         无数据响应, 或许与英雄联盟服务器有关
       </div>
     )
   } else if (currentGameId === 'none') {
     return (
-      <div className='divContentCenter'>
+      <div className='p-3 bg-white h-full w-full boxShadow divContentCenter'>
         [ {queryGameType(Number(matchMode))} ] 当前页数下, 此召唤师的战绩为空
       </div>
     )

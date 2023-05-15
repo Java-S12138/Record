@@ -49,6 +49,7 @@
     },
     "windows": [
       {
+        "title": "Record",
         "label": "Record",
         "fullscreen": false,
         "resizable": false,

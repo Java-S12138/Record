@@ -85,60 +85,64 @@ export default function ({page,handleChange,localSumId,sumId,matchMode,handleSel
     handleSelect(event.target.value)
   }
 
-  const backEle = localSumId !== sumId
-    ? <Button size={'sm'} onClick={() => {alterToSumId(localSumId)}}
-                   colorScheme='twitter' className='headerButton' style={{marginLeft:'9px'}}>查看自己</Button>
-    : <Tag variant='NError' style={{height:'32px',marginLeft:'13px'}}
-           className='cursor-pointer' onClick={onOpen}>更多功能</Tag>
+
+  const noticeEle = localSumId !== sumId
+      ? <Button size={'sm'} onClick={() => {alterToSumId(localSumId)}}
+                colorScheme='twitter' className='headerButton' style={{marginLeft:'9px'}}>查看自己</Button>
+      : <Tag variant='NError' style={{height:'32px',marginLeft:'13px'}}
+             className='cursor-pointer' onClick={onOpen}>{notice?.is_show ? '新的通知':'更多功能'}</Tag>
 
 
   return (
-    <div data-tauri-drag-region  className="flex justify-between">
-      <div className="flex h-10  items-center justify-between" style={{width:'252px'}}>
-        <div className='flex justify-between items-center' style={{width:'250px',height:'40px'}}>
-          <img className='w-10' srcSet={icon}/>
-          <p className="text-3xl font-bold text-zinc-600">Record</p>
-          <div className='webSiteDiv'onClick={() => {open('https://lolfrank.cn')}}>lolfrank.cn</div>
+    <div className='relative'>
+      <div data-tauri-drag-region className='dragDiv'></div>
+      <div className="flex justify-between">
+        <div className="flex h-10  items-center justify-between" style={{width:'252px'}}>
+          <div className='flex justify-between items-center' style={{width:'250px',height:'40px'}}>
+            <img className='w-10' srcSet={icon}/>
+            <p className="text-3xl font-bold text-zinc-600">Record</p>
+            <div className='webSiteDiv'onClick={() => {open('https://lolfrank.cn')}}>lolfrank.cn</div>
+          </div>
         </div>
+        {/*搜索*/}
+        <div className='inputDiv'>
+          <Input size={'sm'} width={'172px'} value={inputValue} onChange={handleInputChange} onKeyDown={handleKeyPress}
+                 style={{borderRadius:'0.375rem',fontSize:'13px'}} placeholder='仅支持查询 当前大区玩家' />
+          <Button size={'sm'} onClick={searchSum}
+                  colorScheme='telegram' className='headerButton'>搜索</Button>
+          <Select value={matchMode} isDisabled={isDisable}  onChange={handleMatchSelect}
+                  variant='outline' size='sm' width='100px'>
+            <option value='0'>全部模式</option>
+            <option value='420'>单双排位</option>
+            <option value='440'>灵活排位</option>
+            <option value='450'>极地乱斗</option>
+            <option value='430'>匹配模式</option>
+          </Select>
+          {noticeEle}
+
+          <div className={classes.root}>
+            <Pagination count={20} page={page} shape="rounded" onChange={handleChange} />
+          </div>
+          <div className='flex gap-3'>
+            <div className="rounded-full flex roundMDiv roundFont" onClick={() => appWindow.minimize()}>-</div>
+            <div className="rounded-full flex roundODiv roundFont" onClick={onOpen}>o</div>
+            <Tooltip label='下次见~' placement='left' bg='#ff6666'>
+              <div className="rounded-full flex roundCDiv roundFont" onClick={() => appWindow.close()}>x</div>
+            </Tooltip>
+          </div>
+        </div>
+
+
+        <Modal isOpen={isOpen} onClose={onClose} size={'3xl'} autoFocus={false}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalBody>
+              <RNotification notice={notice}/>
+            </ModalBody>
+          </ModalContent>
+        </Modal>
       </div>
-      {/*搜索*/}
-      <div className='inputDiv'>
-        {/*{backEle}*/}
-        <Input size={'sm'} width={'172px'} value={inputValue} onChange={handleInputChange} onKeyDown={handleKeyPress}
-               style={{borderRadius:'0.375rem',fontSize:'13px'}} placeholder='仅支持查询 当前大区玩家' />
-        <Button size={'sm'} onClick={searchSum}
-                colorScheme='telegram' className='headerButton'>搜索</Button>
-        <Select value={matchMode} isDisabled={isDisable}  onChange={handleMatchSelect}
-                variant='outline' size='sm' width='100px'>
-          <option value='0'>全部模式</option>
-          <option value='420'>单双排位</option>
-          <option value='440'>灵活排位</option>
-          <option value='450'>极地乱斗</option>
-          <option value='430'>匹配模式</option>
-        </Select>
-        {backEle}
-
-        <div className={classes.root}>
-          <Pagination count={20} page={page} shape="rounded" onChange={handleChange} />
-        </div>
-        <div className='flex gap-3'>
-          <div className="rounded-full flex roundMDiv roundFont" onClick={() => appWindow.minimize()}>-</div>
-          <div className="rounded-full flex roundODiv roundFont" onClick={onOpen}>o</div>
-          <Tooltip label='下次见~' placement='left' bg='#ff6666'>
-            <div className="rounded-full flex roundCDiv roundFont" onClick={() => appWindow.close()}>x</div>
-          </Tooltip>
-        </div>
-      </div>
-
-
-      <Modal isOpen={isOpen} onClose={onClose} size={'3xl'} autoFocus={false}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalBody>
-            <RNotification notice={notice}/>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
     </div>
   )
 }
+

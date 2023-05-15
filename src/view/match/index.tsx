@@ -54,7 +54,7 @@ export const Match = () =>  {
   }
 
   if (sumInfoProps.sumInfo === undefined ) {
-    return (<h1>Hello World</h1>)
+    return (<div></div>)
   }
 
   return (
