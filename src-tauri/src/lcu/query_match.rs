@@ -1,11 +1,12 @@
-use serde::{Serialize,Deserialize};
+use serde::{Serialize, Deserialize};
 use chrono::{TimeZone, Utc};
-#[derive(Serialize, Deserialize)] #[allow(non_snake_case)]
+#[derive(Serialize, Deserialize)] #[allow(non_snake_case)]  #[derive(Clone)] #[derive(Debug)]
 struct Games {
     games:Vec<GamesDetails>,
 }
 
-#[derive(Serialize, Deserialize)] #[allow(non_snake_case)]
+#[derive(Serialize, Deserialize)] #[allow(non_snake_case)]  #[derive(Clone)] #[derive(Debug)]
+
 struct GamesDetails {
     gameCreation: i64,
     gameCreationDate: String,
@@ -20,16 +21,15 @@ struct GamesDetails {
     platformId: String,
     queueId: i64,
     seasonId: i64,
-    teams: Vec<String>,
 }
 
-#[derive(Serialize, Deserialize)] #[allow(non_snake_case)]
+#[derive(Serialize, Deserialize)] #[allow(non_snake_case)] #[derive(Clone)] #[derive(Debug)]
 struct ParticipantIdentities {
     participantId: i64,
     player: Player,
 }
 
-#[derive(Serialize, Deserialize)] #[allow(non_snake_case)]
+#[derive(Serialize, Deserialize)] #[allow(non_snake_case)] #[derive(Clone)] #[derive(Debug)]
 struct Participants {
     championId: i64,
     highestAchievedSeasonTier: String,
@@ -40,7 +40,7 @@ struct Participants {
     teamId: i64,
 }
 
-#[derive(Serialize, Deserialize)] #[allow(non_snake_case)]
+#[derive(Serialize, Deserialize)] #[allow(non_snake_case)] #[derive(Clone)] #[derive(Debug)]
 struct Player {
     accountId: i64,
     currentAccountId: i64,
@@ -53,12 +53,12 @@ struct Player {
     summonerName: String,
 }
 
-#[derive(Serialize, Deserialize)] #[allow(non_snake_case)]
+#[derive(Serialize, Deserialize)] #[allow(non_snake_case)] #[derive(Debug)]
 pub struct MatchStruct {
     games: Games,
 }
 
-#[derive(Serialize, Deserialize)] #[allow(non_snake_case)]
+#[derive(Serialize, Deserialize)] #[allow(non_snake_case)] #[derive(Clone)] #[derive(Debug)]
 struct Stats {
     assists: i64,
     causedEarlySurrender: bool,
@@ -184,9 +184,10 @@ impl MatchStruct {
 
     pub fn get_simple_match(&mut self,queue_id:i64) -> Vec<MatchList> {
         let mut match_vec:Vec<MatchList> = Vec::new();
-        if self.games.games.len() == 0 { return match_vec }
+        let len = self.games.games.len();
+        if len == 0 { return match_vec }
 
-        for game in self.games.games.iter().rev() {
+        for game in self.is_rev(self.games.games.clone(),len) {
             if game.queueId == queue_id {
                 let match_list = MatchList {
                     gameId:game.gameId.to_string(),
@@ -206,7 +207,17 @@ impl MatchStruct {
                 match_vec.push(match_list);
             }
         }
-       match_vec
+        match_vec
+    }
+
+    fn is_rev(&mut self, game_vec: Vec<GamesDetails>, len: usize) -> Vec<GamesDetails> {
+        if game_vec[0].gameCreation > game_vec[len - 1].gameCreation {
+            game_vec
+        } else {
+            let mut reverse_vec = game_vec.clone();
+            reverse_vec.reverse();
+            reverse_vec
+        }
     }
 }
 

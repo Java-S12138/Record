@@ -1,4 +1,4 @@
-use crate::lcu::{process_info, query_match, request::build_reqwest_client};
+use crate::lcu::{process_info, query_match::MatchStruct, request::build_reqwest_client};
 
 pub struct RESTClient {
     port: String,
@@ -8,7 +8,6 @@ pub struct RESTClient {
 type Error = Box<dyn std::error::Error>;
 
 impl RESTClient {
-    /// Create a new instance of the LCU REST wrapper
     pub fn new() -> Result<Self, Error> {
         let (auth_token, port) = process_info::get_auth_info()?;
         let reqwest_client = build_reqwest_client(Some(auth_token));
@@ -30,8 +29,8 @@ impl RESTClient {
         Ok(req)
     }
 
-    pub async fn get_match_list(&self, endpoint: String) -> Result<query_match::MatchStruct, reqwest::Error> {
-        let req: query_match::MatchStruct = self
+    pub async fn get_match_list(&self, endpoint: String) -> Result<MatchStruct, reqwest::Error> {
+        let req:MatchStruct = self
             .reqwest_client
             .get(format!("https://127.0.0.1:{}{}", self.port, endpoint))
             .send()

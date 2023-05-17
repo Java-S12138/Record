@@ -47,10 +47,19 @@ export const queryMatchList = async (puuid: string, begIndex: string, endIndex: 
   if (matchList?.games?.games?.length === 0 || matchList?.games?.games === undefined ) {return []}
 
   const simpleMatchList:MatchList[] = []
-  for (const matchListElement of matchList?.games?.games.reverse()) {
+  for (const matchListElement of isRevGames(matchList.games.games)) {
     const gameModel = queryGameType(matchListElement.queueId)
     simpleMatchList.push(getSimpleMatch(matchListElement,gameModel))
   }
 
   return simpleMatchList
+}
+
+const isRevGames = (games:Game[]):Game[]  =>  {
+  const len = games.length
+  if (games[0].gameCreation > games[len-1].gameCreation) {
+    return games
+  }else {
+    return games.reverse()
+  }
 }

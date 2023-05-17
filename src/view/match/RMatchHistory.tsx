@@ -28,6 +28,7 @@ export default function ({puuid, begIndex, endIndex, openSumDetailDrawer, matchM
       if (specialMatch.current.currentMode !== matchMode){
         specialMatch.current.currentMode = matchMode
         specialMatch.current.matchList = await invoke('get_special_match',{puuid:puuid,queueId:Number(matchMode)})
+        console.log(specialMatch.current.matchList)
       }
       const matchList = specialMatch.current.matchList.slice(Number(begIndex),Number(endIndex))
       handleMatchList(matchList,false)
