@@ -4,7 +4,7 @@ import {useEffect, useRef, useState} from "react";
 import MatchDetail from "./components/MatchDetail";
 import {MatchList} from "../../interface/MatchInfo";
 import {queryMatchList} from "../../utils/getMatchInfo";
-import {Grid, GridItem} from '@chakra-ui/react';
+import {Grid, GridItem, Button} from '@chakra-ui/react';
 import {ParticipantsInfo, MatchHistoryTypes} from "../../interface/MatchDetail";
 import {queryGameDetail} from "../../utils/getMatchDetail";
 import {invoke} from "@tauri-apps/api";
@@ -28,7 +28,6 @@ export default function ({puuid, begIndex, endIndex, openSumDetailDrawer, matchM
       if (specialMatch.current.currentMode !== matchMode){
         specialMatch.current.currentMode = matchMode
         specialMatch.current.matchList = await invoke('get_special_match',{puuid:puuid,queueId:Number(matchMode)})
-        console.log(specialMatch.current.matchList)
       }
       const matchList = specialMatch.current.matchList.slice(Number(begIndex),Number(endIndex))
       handleMatchList(matchList,false)
@@ -41,7 +40,6 @@ export default function ({puuid, begIndex, endIndex, openSumDetailDrawer, matchM
     }
 
   }, [puuid, begIndex, matchMode])
-
 
   const changeCurrentGameId = async (gameId: string, matchIndex: number) => {
     if (gameId === currentGameId) {
@@ -75,6 +73,8 @@ export default function ({puuid, begIndex, endIndex, openSumDetailDrawer, matchM
       queryGameDetail(gameId).then((detail) => {
         if (detail !== null) {
           setParticipantsInfo(detail)
+        }else {
+          setParticipantsInfo({} as ParticipantsInfo)
         }
       })
     } else if (isCommon) {
@@ -83,12 +83,13 @@ export default function ({puuid, begIndex, endIndex, openSumDetailDrawer, matchM
       setCurrentGameId('none')
     }
   }
-
-  if (currentGameId === 'error') {
+  if ( currentGameId === 'error') {
     return (
-      <div className='p-3 bg-white h-full w-full boxShadow divContentCenter'>
-        可尝试按下, Ctrl+R 刷新页面<br/>
-        无数据响应, 或许与英雄联盟服务器有关
+      <div className='p-3 bg-white h-full w-full boxShadow  divContentCenter'>
+        <div className='flex-col flex gap-3'>
+          无数据响应, 或许与英雄联盟服务器有关
+          <Button style={{fontWeight:'400'}} size={'sm'} onClick={() => {location.reload()}}>重新获取</Button>
+        </div>
       </div>
     )
   } else if (currentGameId === 'none') {
@@ -100,7 +101,6 @@ export default function ({puuid, begIndex, endIndex, openSumDetailDrawer, matchM
   }else if (currentGameId === ''){
     return (<></>)
   }
-
   return (
     <div className='p-3 bg-white h-full w-full boxShadow'>
       <Grid

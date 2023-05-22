@@ -16,7 +16,6 @@ export default function ({participantsInfo,openDrawer}:{participantsInfo:Partici
   if (participantsInfo?.headerInfo?.length === 1){
     return (<div></div>)
   }
-
   if (participantsInfo?.headerInfo === undefined){
     return (
       <div className='divContentCenter'>
