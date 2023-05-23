@@ -43,7 +43,7 @@ interface ParticipantIdentity {
   player: Player;
 }
 
-interface Stat {
+export interface Stat {
   assists: number;
   causedEarlySurrender: boolean;
   champLevel: number;
@@ -194,7 +194,7 @@ interface Timeline {
   xpPerMinDeltas: XpPerMinDelta;
 }
 
-interface Participant {
+export interface Participant {
   championId: number;
   highestAchievedSeasonTier: string;
   participantId: number;
@@ -277,6 +277,7 @@ export interface SummonerDetailInfo {
   wardsPlaced: number;
   runesList: number[];
   totalMinionsKilled: number;
+  iconList:string[]
 }
 
 export interface ParticipantsInfo {
@@ -291,4 +292,15 @@ export interface MatchHistoryTypes {
   endIndex: string,
   openSumDetailDrawer: Function,
   matchMode: string
+}
+
+export interface MaxMatchData {
+  kills: number;
+  assists: number;
+  turretKills: number;
+  totalDamageDealtToChampions: number;
+  totalMinionsKilled: number;
+  goldEarned: number;
+  totalDamageTaken: number;
+  visionScore: number;
 }

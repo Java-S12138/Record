@@ -12,7 +12,7 @@ export default function ({participantsInfo,openDrawer}:{participantsInfo:Partici
     const rotatedIndex = (showTypeIndex.current += 1) % arr.length
     setShowType(arr[rotatedIndex])
   }
-
+  console.log(participantsInfo)
   if (participantsInfo?.headerInfo?.length === 1){
     return (<div></div>)
   }

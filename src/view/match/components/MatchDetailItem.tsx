@@ -39,6 +39,12 @@ export default function ({isLeft,detailInfo,showTypeKey,showTypeIndex,querySumDe
   }
 
   const itemDiv = detailInfo.map((summoner,index) => {
+    const iconImgEle = summoner.iconList.map((url:string,index:number) => {
+      return (
+        <img key={index} src={url} className='matchIconImg'/>
+      )
+    })
+
     return (
       <div key={index} onClick={() => {queryDetail(index)}}>
         <div className='summonerItem'>
@@ -76,9 +82,12 @@ export default function ({isLeft,detailInfo,showTypeKey,showTypeIndex,querySumDe
           <p className='progressValue' >
             {otherData[index][showTypeKey]}
           </p>
-          <div style={{width:'205px'}}>
+          <div style={{width:'205px',}}>
             <p key={showTypeIndex}  style={{width:percentList[index][showTypeKey]}}
                className={(isLeft?'champAvatarColorRed':'champAvatarColorBlue')+' progressP scale-in-hor-left'}/>
+          </div>
+          <div className='matchIconImgDiv'>
+            {iconImgEle}
           </div>
         </div>
       </div>

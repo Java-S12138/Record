@@ -1,10 +1,17 @@
 import { invoke } from '@tauri-apps/api';
 import {champDict} from "../assets/champList";
-import {GameDetailedInfo,SummonerDetailInfo,ParticipantsInfo} from  "../interface/MatchDetail"
+import {
+  GameDetailedInfo,
+  SummonerDetailInfo,
+  ParticipantsInfo,
+  Participant,
+  MaxMatchData,Stat
+} from "../interface/MatchDetail"
 import {queryGameType,getspellImgUrl,getItemImgUrl} from "../utils/tool"
 
 export const queryGameDetail = async (gameId:string)  => {
   const response:GameDetailedInfo = await invoke('get_match_detail',{gameId:gameId})
+  console.log(gameId)
   return getParticipantsDetails(response,response.participants, response.participantIdentities,gameId)
 }
 
@@ -21,6 +28,7 @@ const getParticipantsDetails = (res:any,participants:any, participantIdentities:
   let team200Kills = 0
   let team100GoldEarned = 0
   let team200GoldEarned = 0
+  const maxMatchData = getMaxField(participants)
 
   for (let i = 0; i < 5; i++) {
     team100Kills += participants[i].stats.kills
@@ -28,17 +36,33 @@ const getParticipantsDetails = (res:any,participants:any, participantIdentities:
     team100GoldEarned += participants[i].stats.goldEarned
     team200GoldEarned += participants[i+5].stats.goldEarned
 
-    participantsInfo.teamOne.push(analyticalData(participants[i],nameList[i].name,nameList[i].summonerId,gameId))
-    participantsInfo.teamTwo.push(analyticalData(participants[i+5],nameList[i+5].name,nameList[i+5].summonerId,gameId))
+    participantsInfo.teamOne.push(analyticalData(participants[i],nameList[i].name,nameList[i].summonerId,gameId,maxMatchData))
+    participantsInfo.teamTwo.push(analyticalData(participants[i+5],nameList[i+5].name,nameList[i+5].summonerId,gameId,maxMatchData))
   }
 
   titleList.push(String(team100Kills),String(team200Kills),String(goldToStr(team100GoldEarned)),String(goldToStr(team200GoldEarned)))
   participantsInfo.headerInfo = titleList
-
   return participantsInfo
 }
 // 解析对局数据
-const analyticalData  = (participant:any,nameList:any,accountIdList:any,gameId:string):SummonerDetailInfo => {
+const analyticalData  = (participant:any,nameList:any,accountIdList:any,gameId:string,maxMatchData:MaxMatchData):SummonerDetailInfo => {
+  const iconList = getIconList(participant.stats,maxMatchData)
+  if (participant.stats.firstBloodKill){
+    iconList.push(getIconUrl('firstBlood'))
+  }
+  if (participant.stats.tripleKills>0){
+    iconList.push(getIconUrl('threeKills'))
+  }
+  if (participant.stats.quadraKills>0){
+    iconList.push(getIconUrl('fourKills'))
+  }
+  if (participant.stats.pentaKills>0){
+    iconList.push(getIconUrl('fiveKills'))
+  }
+  if (participant.stats.largestKillingSpree>=8){
+    iconList.push(getIconUrl('god'))
+  }
+
   return{
     name: nameList,
     gameId:gameId,
@@ -83,7 +107,8 @@ const analyticalData  = (participant:any,nameList:any,accountIdList:any,gameId:s
     // 符文数据
     runesList:[participant.stats.perk0,participant.stats.perk1,participant.stats.perk2,
       participant.stats.perk3,participant.stats.perk4,participant.stats.perk5],
-    totalMinionsKilled:participant.stats.totalMinionsKilled+participant.stats.neutralMinionsKilled
+    totalMinionsKilled:participant.stats.totalMinionsKilled+participant.stats.neutralMinionsKilled,
+    iconList:iconList
   }
 }
 // 获取召唤师participantId 和 name
@@ -111,5 +136,63 @@ const getDetailsTitle = (gameInfo:any) => {
   return [dateStr, timeStr, lane, gameDuration]
 }
 const goldToStr = (gold:number) => {
-  return Number((gold/1000).toFixed(1))
+  return Number((gold / 1000).toFixed(1))
 }
+
+const getIconUrl = (key:string) => {
+  return new URL(`/src/assets/matchImage/${key}.png`, import.meta.url).href
+}
+
+// 获取十名召唤师中的某些数据的最大数据
+const getMaxField = (participants:Participant[]) => {
+  return participants.reduce((res:MaxMatchData,obj:Participant) => {
+    if (obj.stats.kills >= res.kills){
+      res.kills = obj.stats.kills
+    }
+    if (obj.stats.assists >= res.assists){
+      res.assists = obj.stats.assists
+    }
+    if (obj.stats.turretKills >= res.turretKills){
+      res.turretKills = obj.stats.turretKills
+    }
+    if (obj.stats.totalDamageDealtToChampions >= res.totalDamageDealtToChampions){
+      res.totalDamageDealtToChampions = obj.stats.totalDamageDealtToChampions
+    }
+    if (obj.stats.totalMinionsKilled >= res.totalMinionsKilled){
+      res.totalMinionsKilled = obj.stats.totalMinionsKilled
+    }
+    if (obj.stats.goldEarned >= res.goldEarned){
+      res.goldEarned = obj.stats.goldEarned
+    }
+    if (obj.stats.totalDamageTaken >= res.totalDamageTaken){
+      res.totalDamageTaken = obj.stats.totalDamageTaken
+    }
+    if (obj.stats.visionScore >= res.visionScore){
+      res.visionScore = obj.stats.visionScore
+    }
+    return res
+  },<MaxMatchData>{
+    kills: 0,
+    assists: 0,
+    turretKills: 0,
+    totalDamageDealtToChampions: 0,
+    totalMinionsKilled: 0,
+    goldEarned: 0,
+    totalDamageTaken: 0,
+    visionScore:0
+  })
+}
+
+// 获取对于的最大数据图标
+const getIconList = (stats:Stat,maxMatchData:MaxMatchData) => {
+  const iconList:string[] = []
+  for (const key of Object.keys(maxMatchData)) {
+    // @ts-ignore
+    if (stats[key] === maxMatchData[key]){
+      iconList.push(getIconUrl(key))
+    }
+  }
+  return iconList
+}
+
+// 总得分 = 4 × 击杀数 + 1 × 助攻数 - 2 × 死亡数 + H × 造成英雄伤害量
