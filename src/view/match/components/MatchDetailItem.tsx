@@ -1,13 +1,13 @@
 import "../css/matchContain.css";
 import {SumIdContext} from "../index";
-import {Image} from "@chakra-ui/react";
-import {MatchItem,SummonerDetailInfo,MaxValueList,SumDetail} from "../../../interface/MatchDetail";
+import {Image,Tooltip} from "@chakra-ui/react";
+import {MatchItem,SumDetail} from "../../../interface/MatchDetail";
 import {useContext} from "react";
 import {querySumRank} from "../../../utils/getSumInfo";
+import {iconDict} from "../../../utils/tool";
 
 export default function ({isLeft,detailInfo,showTypeKey,showTypeIndex,querySumDetail}:MatchItem) {
   const CurrentSumId = useContext(SumIdContext)
-  const {otherData,percentList} = queryOtherMax(detailInfo)
 
   const queryDetail = (index:number) => {
     const personalGameDetails = detailInfo[index]
@@ -40,10 +40,20 @@ export default function ({isLeft,detailInfo,showTypeKey,showTypeIndex,querySumDe
 
   const itemDiv = detailInfo.map((summoner,index) => {
     const iconImgEle = summoner.iconList.map((url:string,index:number) => {
+      // @ts-ignore
+      const fileName = url.match(/\/([^/]+)\.[^.]+$/)[1]
       return (
-        <img key={index} src={url} className='matchIconImg'/>
+        <Tooltip key={index+1} label={iconDict[fileName]} placement='top-start' fontSize={13}
+                 offset={[-1,6]} bg='#edf2f7' color='#a1a1aa'>
+          <img src={url} className='matchIconImg'/>
+        </Tooltip>
       )
     })
+    if (summoner.isMvp && summoner.isWin){
+      iconImgEle.unshift(getMvpEle('mvp'))
+    }else if (summoner.isMvp && !summoner.isWin){
+      iconImgEle.unshift(getMvpEle('svp'))
+    }
 
     return (
       <div key={index} onClick={() => {queryDetail(index)}}>
@@ -80,10 +90,10 @@ export default function ({isLeft,detailInfo,showTypeKey,showTypeIndex,querySumDe
         </div>
         <div className='progressDivP'>
           <p className='progressValue' >
-            {otherData[index][showTypeKey]}
+            {summoner[showTypeKey]}
           </p>
           <div style={{width:'205px',}}>
-            <p key={showTypeIndex}  style={{width:percentList[index][showTypeKey]}}
+            <p key={showTypeIndex}  style={{width:summoner.showDataDict[showTypeKey]}}
                className={(isLeft?'champAvatarColorRed':'champAvatarColorBlue')+' progressP scale-in-hor-left'}/>
           </div>
           <div className='matchIconImgDiv'>
@@ -101,58 +111,13 @@ export default function ({isLeft,detailInfo,showTypeKey,showTypeIndex,querySumDe
   )
 }
 
-
-
-// 根据最高数据算出百分比
-const computePercent = (max:any, cur:any) => {
-  if (max == 0 || cur == 0) {
-    return '0%'
-  }
-  return Math.round(cur / max * 10000) / 100 + "%"
-}
-
-// 求出每项额外数据中,每个队伍中数据最高的
-const queryOtherMax = (sumDetailInfo:SummonerDetailInfo[]) => {
-  const otherData:any[] = getOtherData(sumDetailInfo)
-
-  // 求出最大数据
-  let maxList: {[key: string]: number} = {}
-  for (let obj of otherData) {
-    for (let key in obj) {
-      // @ts-ignore
-      if (maxList[key] === undefined || obj[key] > maxList[key]) {
-        // @ts-ignore
-        maxList[key] = obj[key]
-      }
-    }
-  }
-  // 求出百分比值
-  const percentList:any[] = []
-  for (const otherDatum of otherData) {
-      const tempJson = {
-        tddtc: computePercent(maxList.tddtc, otherDatum.tddtc),
-        tdt: computePercent(maxList.tdt, otherDatum.tdt),
-        ge: computePercent(maxList.ge, otherDatum.ge),
-        vs: computePercent(maxList.vs, otherDatum.vs),
-        tmk: computePercent(maxList.tmk, otherDatum.tmk)
-      }
-    percentList.push(tempJson)
-  }
-  return {
-    otherData,percentList
-  }
-}
-
-// 获取伤害总和,承伤,金钱,视野得分,补刀数
-const getOtherData = (sumDetailInfo:SummonerDetailInfo[]):MaxValueList[] => {
-  const otherList = []
-  for (const rowElement of sumDetailInfo) {
-    const tempJson = {
-      tddtc: rowElement.totalDamageDealtToChampions,
-      tdt: rowElement.totalDamageTaken, ge: rowElement.goldEarned,
-      vs: rowElement.visionScore, tmk: rowElement.totalMinionsKilled
-    }
-    otherList.push(tempJson)
-  }
-  return otherList
+// 获取mvp/svp 元素
+const getMvpEle = (key:string) => {
+  const imgUrl = new URL(`/src/assets/matchImage/${key}.png`, import.meta.url).href
+  return(
+      <Tooltip key={0} label={iconDict[key]} placement='top-start' fontSize={13}
+               offset={[-1,6]} bg='#edf2f7' color='#a1a1aa'>
+        <img src={imgUrl} style={{height:'12px'}}/>
+      </Tooltip>
+    )
 }

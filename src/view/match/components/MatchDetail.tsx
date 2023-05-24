@@ -4,15 +4,15 @@ import {useRef, useState} from "react";
 import {ParticipantsInfo} from "../../../interface/MatchDetail";
 
 export default function ({participantsInfo,openDrawer}:{participantsInfo:ParticipantsInfo,openDrawer:Function}) {
-  const arr = [['tddtc','输出伤害'],['tdt','承受伤害'],['ge','商店存款'],['vs','视野得分'],['tmk','击杀小兵']]
-  const [showType,setShowType] = useState(['tddtc','输出伤害'])
+  const arr = [['totalDamageDealtToChampions','输出伤害'],['totalDamageTaken','承受伤害'],['goldEarned','商店存款'],['visionScore','视野得分'],['totalMinionsKilled','击杀小兵']]
+  const [showType,setShowType] = useState(['totalDamageDealtToChampions','输出伤害'] as any)
   const showTypeIndex= useRef(0)
 
   const switchShowType = () => {
     const rotatedIndex = (showTypeIndex.current += 1) % arr.length
     setShowType(arr[rotatedIndex])
   }
-  console.log(participantsInfo)
+
   if (participantsInfo?.headerInfo?.length === 1){
     return (<div></div>)
   }

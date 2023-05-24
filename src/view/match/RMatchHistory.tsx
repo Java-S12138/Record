@@ -6,10 +6,10 @@ import {MatchList} from "../../interface/MatchInfo";
 import {queryMatchList} from "../../utils/getMatchInfo";
 import {Grid, GridItem, Button} from '@chakra-ui/react';
 import {ParticipantsInfo, MatchHistoryTypes} from "../../interface/MatchDetail";
-import {queryGameDetail} from "../../utils/getMatchDetail";
+import {MatchDetails} from "../../utils/getMatchDetail";
 import {invoke} from "@tauri-apps/api";
 import {queryGameType} from "../../utils/tool";
-
+const matchDetials = new MatchDetails()
 
 export default function ({puuid, begIndex, endIndex, openSumDetailDrawer, matchMode}: MatchHistoryTypes) {
   const [matchListProps, setMatchListProps] = useState<MatchList[]>([])
@@ -17,6 +17,7 @@ export default function ({puuid, begIndex, endIndex, openSumDetailDrawer, matchM
   const [currentGameId, setCurrentGameId] = useState('')
   const [matchIndex, setMatchIndex] = useState(0)
   const specialMatch = useRef({currentMode:'0',matchList:[] as MatchList[]} )
+
 
   useEffect(() => {
     const fetchMatchList = async () => {
@@ -45,7 +46,7 @@ export default function ({puuid, begIndex, endIndex, openSumDetailDrawer, matchM
     if (gameId === currentGameId) {
       return
     }
-    const gameDetail = await queryGameDetail(gameId)
+    const gameDetail = await matchDetials.queryGameDetail(gameId)
     const matchElement = document.getElementById('matchDetail')
 
     if (matchElement !== null) {
@@ -70,7 +71,7 @@ export default function ({puuid, begIndex, endIndex, openSumDetailDrawer, matchM
     if (matchList.length > 0) {
       const gameId = matchList[0].gameId
       setCurrentGameId(gameId)
-      queryGameDetail(gameId).then((detail) => {
+      matchDetials.queryGameDetail(gameId).then((detail) => {
         if (detail !== null) {
           setParticipantsInfo(detail)
         }else {

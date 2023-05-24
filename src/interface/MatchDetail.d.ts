@@ -1,7 +1,7 @@
 export interface MatchItem {
   isLeft: boolean
   detailInfo: SummonerDetailInfo[],
-  showTypeKey: string,
+  showTypeKey: 'totalDamageDealtToChampions'|'totalDamageTaken'|'goldEarned'|'visionScore'|'totalMinionsKilled',
   showTypeIndex: number,
   querySumDetail: Function
 }
@@ -38,7 +38,7 @@ interface Player {
   summonerName: string;
 }
 
-interface ParticipantIdentity {
+export interface ParticipantIdentity {
   participantId: number;
   player: Player;
 }
@@ -277,7 +277,11 @@ export interface SummonerDetailInfo {
   wardsPlaced: number;
   runesList: number[];
   totalMinionsKilled: number;
-  iconList:string[]
+  iconList:string[],
+  score:number,
+  isWin:boolean,
+  isMvp:boolean,
+  showDataDict:ShowDataTypes
 }
 
 export interface ParticipantsInfo {
@@ -303,4 +307,11 @@ export interface MaxMatchData {
   goldEarned: number;
   totalDamageTaken: number;
   visionScore: number;
+}
+export interface ShowDataTypes {
+  totalDamageDealtToChampions:number,
+  totalDamageTaken:number,
+  goldEarned:number,
+  visionScore:number,
+  totalMinionsKilled:number
 }
