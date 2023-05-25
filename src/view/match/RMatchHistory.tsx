@@ -9,6 +9,7 @@ import {ParticipantsInfo, MatchHistoryTypes} from "../../interface/MatchDetail";
 import {MatchDetails} from "../../utils/getMatchDetail";
 import {invoke} from "@tauri-apps/api";
 import {queryGameType} from "../../utils/tool";
+
 const matchDetials = new MatchDetails()
 
 export default function ({puuid, begIndex, endIndex, openSumDetailDrawer, matchMode}: MatchHistoryTypes) {

@@ -39,20 +39,13 @@ export default function ({isLeft,detailInfo,showTypeKey,showTypeIndex,querySumDe
   }
 
   const itemDiv = detailInfo.map((summoner,index) => {
-    const iconImgEle = summoner.iconList.map((url:string,index:number) => {
-      // @ts-ignore
-      const fileName = url.match(/\/([^/]+)\.[^.]+$/)[1]
-      return (
-        <Tooltip key={index+1} label={iconDict[fileName]} placement='top-start' fontSize={13}
-                 offset={[-1,6]} bg='#edf2f7' color='#a1a1aa'>
-          <img src={url} className='matchIconImg'/>
-        </Tooltip>
-      )
+    const iconImgEle = summoner.iconList.map((icon:string,index:number) => {
+      return getIconEle(index+1,icon)
     })
     if (summoner.isMvp && summoner.isWin){
-      iconImgEle.unshift(getMvpEle('mvp'))
+      iconImgEle.unshift(getIconEle(0,'mvp'))
     }else if (summoner.isMvp && !summoner.isWin){
-      iconImgEle.unshift(getMvpEle('svp'))
+      iconImgEle.unshift(getIconEle(0,'svp'))
     }
 
     return (
@@ -111,13 +104,13 @@ export default function ({isLeft,detailInfo,showTypeKey,showTypeIndex,querySumDe
   )
 }
 
-// 获取mvp/svp 元素
-const getMvpEle = (key:string) => {
+// 获取icon元素
+const getIconEle = (index:number,key:string) => {
   const imgUrl = new URL(`/src/assets/matchImage/${key}.png`, import.meta.url).href
   return(
-      <Tooltip key={0} label={iconDict[key]} placement='top-start' fontSize={13}
+      <Tooltip key={index} label={iconDict[key]} placement='top-start' fontSize={13}
                offset={[-1,6]} bg='#edf2f7' color='#a1a1aa'>
-        <img src={imgUrl} style={{height:'12px'}}/>
+        <img src={imgUrl} className='matchIconImg'/>
       </Tooltip>
     )
 }

@@ -70,19 +70,19 @@ export class MatchDetails {
   private analyticalData  = (participant:Participant,nameList:any,accountIdList:any,gameId:string,maxMatchData:MaxMatchData):SummonerDetailInfo => {
     const iconList = this.getIconList(participant.stats,maxMatchData)
     if (participant.stats.firstBloodKill){
-      iconList.push(this.getIconUrl('firstBlood'))
+      iconList.push('firstBlood')
     }
     if (participant.stats.tripleKills>0){
-      iconList.push(this.getIconUrl('threeKills'))
+      iconList.push('threeKills')
     }
     if (participant.stats.quadraKills>0){
-      iconList.push(this.getIconUrl('fourKills'))
+      iconList.push('fourKills')
     }
     if (participant.stats.pentaKills>0){
-      iconList.push(this.getIconUrl('fiveKills'))
+      iconList.push('fiveKills')
     }
     if (participant.stats.largestKillingSpree>=8){
-      iconList.push(this.getIconUrl('god'))
+      iconList.push('god')
     }
     const showDataDict:ShowDataTypes = this.getShowDataPercent(maxMatchData,{totalDamageDealtToChampions:participant.stats.totalDamageDealtToChampions,
       totalDamageTaken:participant.stats.totalDamageTaken,
@@ -169,9 +169,6 @@ export class MatchDetails {
   private goldToStr = (gold:number) => {
     return Number((gold / 1000).toFixed(1))
   }
-  private getIconUrl = (key:string) => {
-    return new URL(`/src/assets/matchImage/${key}.png`, import.meta.url).href
-  }
   // 获取十名召唤师中的某些数据的最大数据
   private getMaxField = (participants:Participant[]) => {
     return participants.reduce((res:MaxMatchData,obj:Participant) => {
@@ -217,13 +214,13 @@ export class MatchDetails {
     for (const key of Object.keys(maxMatchData)) {
       if (key==='totalMinionsKilled'){
         if (stats.totalMinionsKilled+stats.neutralMinionsKilled === maxMatchData.totalMinionsKilled){
-          iconList.push(this.getIconUrl(key))
+          iconList.push(key)
         }
         continue
       }
       // @ts-ignore
       if (stats[key] === maxMatchData[key] && this.markeUsed[key]){
-        iconList.push(this.getIconUrl(key))
+        iconList.push(key)
         // @ts-ignore
         this.markeUsed[key] = false
       }

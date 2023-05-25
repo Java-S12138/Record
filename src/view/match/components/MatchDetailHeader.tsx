@@ -12,8 +12,6 @@ export default function ({title,showTypeValue,switchFun}: {title:string[],showTy
     score:(Math.abs(Number(title[6])-Number(title[7])).toFixed(1))
   }
 
-  // const showType = {tddtc: '输出伤害', tdt: '承受伤害', ge: '商店存款', vs: '视野得分', tmk: '击杀小兵'}
-
   return (
     <div>
       <TableContainer>

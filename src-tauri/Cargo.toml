@@ -6,12 +6,13 @@ authors = ["Java_S"]
 license = ""
 repository = ""
 edition = "2021"
+build = "build.rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [build-dependencies]
 tauri-build = { version = "=1.0", features = [] }
-embed-resource = "1.7"
+embed-resource = "2.1"
 
 [dependencies]
 tauri = { version = "1.2", features = ["shell-open", "window-close", "window-hide", "window-minimize", "window-show", "window-start-dragging", "window-unmaximize", "window-unminimize"] }
