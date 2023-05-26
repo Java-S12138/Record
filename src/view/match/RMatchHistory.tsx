@@ -12,7 +12,7 @@ import {queryGameType} from "../../utils/tool";
 
 const matchDetials = new MatchDetails()
 
-export default function ({puuid, begIndex, endIndex, openSumDetailDrawer, matchMode}: MatchHistoryTypes) {
+export default function ({sumId,puuid, begIndex, endIndex, openSumDetailDrawer, matchMode}: MatchHistoryTypes) {
   const [matchListProps, setMatchListProps] = useState<MatchList[]>([])
   const [participantsInfo, setParticipantsInfo] = useState({headerInfo: ['init']} as ParticipantsInfo)
   const [currentGameId, setCurrentGameId] = useState('')
@@ -47,7 +47,7 @@ export default function ({puuid, begIndex, endIndex, openSumDetailDrawer, matchM
     if (gameId === currentGameId) {
       return
     }
-    const gameDetail = await matchDetials.queryGameDetail(gameId)
+    const gameDetail = await matchDetials.queryGameDetail(gameId,sumId)
     const matchElement = document.getElementById('matchDetail')
 
     if (matchElement !== null) {
@@ -72,7 +72,7 @@ export default function ({puuid, begIndex, endIndex, openSumDetailDrawer, matchM
     if (matchList.length > 0) {
       const gameId = matchList[0].gameId
       setCurrentGameId(gameId)
-      matchDetials.queryGameDetail(gameId).then((detail) => {
+      matchDetials.queryGameDetail(gameId,sumId).then((detail) => {
         if (detail !== null) {
           setParticipantsInfo(detail)
         }else {
@@ -85,6 +85,7 @@ export default function ({puuid, begIndex, endIndex, openSumDetailDrawer, matchM
       setCurrentGameId('none')
     }
   }
+
   if ( currentGameId === 'error') {
     return (
       <div className='p-3 bg-white h-full w-full boxShadow  divContentCenter'>
@@ -103,6 +104,7 @@ export default function ({puuid, begIndex, endIndex, openSumDetailDrawer, matchM
   }else if (currentGameId === ''){
     return (<></>)
   }
+
   return (
     <div className='p-3 bg-white h-full w-full boxShadow'>
       <Grid

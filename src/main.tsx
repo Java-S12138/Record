@@ -29,7 +29,7 @@ invoke('is_lcu_success').then((isTrue) => {
           <h2>请在英雄联盟客户端启动后 打开此软件
             <span className='cursor-pointer text-red-500'
                   onClick={() => appWindow.close()}> [ 关闭软件 ] </span> </h2>
-          <h2>如果英雄联盟已经运行, 请关注官网 lolfrank.cn 是否存在软件更新 当前版本 0.0.1</h2>
+          <h2>如果英雄联盟已经运行, 请关注官网 lolfrank.cn 是否存在软件更新 当前版本 1.0.0</h2>
         </div>
       </div>
     )

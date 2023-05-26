@@ -23,10 +23,10 @@ export class MatchDetails {
     totalDamageTaken: true,
     visionScore: true}
 
-  public queryGameDetail = async (gameId:string) => {
+  public queryGameDetail = async (gameId:string,sumId:number) => {
     this.init()
     const response:GameDetailedInfo = await invoke('get_match_detail',{gameId:gameId})
-    return this.getParticipantsDetails(response,response.participants, response.participantIdentities,gameId)
+    return this.getParticipantsDetails(response,response.participants, response.participantIdentities,gameId,sumId)
   }
 
   private init() {
@@ -42,12 +42,12 @@ export class MatchDetails {
   }
 
   // 获取召唤师participants下面的详细数据
-  private getParticipantsDetails = (res:GameDetailedInfo,participants:Participant[], participantIdentities: ParticipantIdentity[],gameId:string) => {
+  private getParticipantsDetails = (res:GameDetailedInfo,participants:Participant[], participantIdentities: ParticipantIdentity[],gameId:string,sumId:number) => {
     if (participants?.length !== 10){
       return null
     }
 
-    const titleList = this.getDetailsTitle(res)
+    const titleList = this.getDetailsTitle(res.gameCreation,res.gameDuration,res.queueId)
     const maxMatchData = this.getMaxField(participants)
     const participantsInfo:ParticipantsInfo = {teamOne:[],teamTwo:[],headerInfo:[]}
     const nameList = this.getparticipantIdAndName(participantIdentities)
@@ -56,8 +56,8 @@ export class MatchDetails {
       this.team100Kills += participants[i].stats.kills;this.team200Kills += participants[i + 5].stats.kills
       this.team100GoldEarned += participants[i].stats.goldEarned;this.team200GoldEarned += participants[i+5].stats.goldEarned
 
-      participantsInfo.teamOne.push(this.analyticalData(participants[i],nameList[i].name,nameList[i].summonerId,gameId,maxMatchData))
-      participantsInfo.teamTwo.push(this.analyticalData(participants[i+5],nameList[i+5].name,nameList[i+5].summonerId,gameId,maxMatchData))
+      participantsInfo.teamOne.push(this.analyticalData(participants[i],nameList[i],gameId,maxMatchData,sumId))
+      participantsInfo.teamTwo.push(this.analyticalData(participants[i+5],nameList[i+5],gameId,maxMatchData,sumId))
     }
     participantsInfo.teamOne[this.queryMvpIndex(participantsInfo.teamOne).index].isMvp = true
     participantsInfo.teamTwo[this.queryMvpIndex(participantsInfo.teamTwo).index].isMvp = true
@@ -67,7 +67,7 @@ export class MatchDetails {
     return participantsInfo
   }
   // 解析对局数据
-  private analyticalData  = (participant:Participant,nameList:any,accountIdList:any,gameId:string,maxMatchData:MaxMatchData):SummonerDetailInfo => {
+  private analyticalData  = (participant:Participant,nameList: {name: string, summonerId: number},gameId:string,maxMatchData:MaxMatchData,sumId:number):SummonerDetailInfo => {
     const iconList = this.getIconList(participant.stats,maxMatchData)
     if (participant.stats.firstBloodKill){
       iconList.push('firstBlood')
@@ -91,9 +91,10 @@ export class MatchDetails {
       totalMinionsKilled:participant.stats.totalMinionsKilled+participant.stats.neutralMinionsKilled
     })
     return{
-      name: nameList,
+      name: nameList.name,
       gameId:gameId,
-      accountId:accountIdList,
+      accountId:nameList.summonerId,
+      isCurSum:nameList.summonerId===sumId?true:false,
       teamType: participant.teamId,
       champLevel:participant.stats.champLevel,
       champImgUrl: `https://game.gtimg.cn/images/lol/act/img/champion/${champDict[participant.championId].alias}.png`,
@@ -153,17 +154,12 @@ export class MatchDetails {
     return dataList
   }
   // 获取当前页面顶部详细数据
-  private getDetailsTitle = (gameInfo:any) => {
-    let createTime = (new Date(gameInfo.gameCreation).toLocaleString()).split(' ')
-    let dateStr = createTime[0].slice(5)
-    let timeStr = createTime[1].slice(0, 5)
-    if (queryGameType(gameInfo.queueId).indexOf(' ') != -1){
-      var lane = queryGameType(gameInfo.queueId).split(' ')[1]
-    }else {
-      var lane = queryGameType(gameInfo.queueId)
-    }
-
-    let gameDuration = ((gameInfo.gameDuration) / 60).toFixed(0)
+  private getDetailsTitle = (creation:number,duration:number,queueId:number) => {
+    const createTime = (new Date(creation).toLocaleString()).split(' ')
+    const dateStr = createTime[0].slice(5)
+    const timeStr = createTime[1].slice(0, 5)
+    const lane = queryGameType(queueId)
+    const gameDuration = ((duration) / 60).toFixed(0)
     return [dateStr, timeStr, lane, gameDuration]
   }
   private goldToStr = (gold:number) => {

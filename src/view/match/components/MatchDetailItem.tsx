@@ -1,14 +1,10 @@
 import "../css/matchContain.css";
-import {SumIdContext} from "../index";
 import {Image,Tooltip} from "@chakra-ui/react";
 import {MatchItem,SumDetail} from "../../../interface/MatchDetail";
-import {useContext} from "react";
 import {querySumRank} from "../../../utils/getSumInfo";
 import {iconDict} from "../../../utils/tool";
 
 export default function ({isLeft,detailInfo,showTypeKey,showTypeIndex,querySumDetail}:MatchItem) {
-  const CurrentSumId = useContext(SumIdContext)
-
   const queryDetail = (index:number) => {
     const personalGameDetails = detailInfo[index]
 
@@ -52,7 +48,7 @@ export default function ({isLeft,detailInfo,showTypeKey,showTypeIndex,querySumDe
       <div key={index} onClick={() => {queryDetail(index)}}>
         <div className='summonerItem'>
           {/*头像*/}
-          <div className={(CurrentSumId===summoner.accountId?'slideSum':'') +' champAvatar'}>
+          <div className={(summoner.isCurSum?'slideSum':'') +' champAvatar'}>
             <Image className='rounded'
                    boxSize='50px' src={summoner.champImgUrl}/>
             <div className={(isLeft?'champAvatarColorRed':'champAvatarColorBlue')+' champLevel'}>
@@ -75,7 +71,7 @@ export default function ({isLeft,detailInfo,showTypeKey,showTypeIndex,querySumDe
               <img className="itemClassSecond" src={summoner.spell1Id}/>
               <img className="itemClassSecond" src={summoner.spell2Id}/>
               {/*召唤师昵称*/}
-              <div className={(CurrentSumId===summoner.accountId?'currentSumColor':'') +' summonerName'}>{summoner.name}</div>
+              <div className={(summoner.isCurSum?'currentSumColor':'') +' summonerName'}>{summoner.name}</div>
               {/*kda*/}
               <div className="kdaDiv">{summoner.kills}-{summoner.deaths}-{summoner.assists}</div>
             </div>

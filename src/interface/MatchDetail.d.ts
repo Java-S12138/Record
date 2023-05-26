@@ -249,6 +249,7 @@ export interface SummonerDetailInfo {
   name: string;
   gameId: string;
   accountId: number;
+  isCurSum:boolean,
   teamType: number;
   champLevel: number;
   champImgUrl: string;
@@ -291,6 +292,7 @@ export interface ParticipantsInfo {
 }
 
 export interface MatchHistoryTypes {
+  sumId:number
   puuid: string,
   begIndex: string,
   endIndex: string,

@@ -3,14 +3,13 @@ import RExcelChamp from "./RExcelChamp";
 import {useState, useEffect, createContext, useRef} from "react";
 import RSummonerInfo from "./RSummonerInfo";
 import RMatchHistory from "./RMatchHistory";
-import {Drawer, DrawerBody, DrawerContent, DrawerOverlay, Grid, GridItem,
-  useDisclosure} from '@chakra-ui/react'
+import {Drawer, DrawerBody, DrawerContent,
+  DrawerOverlay, Grid, GridItem, useDisclosure} from '@chakra-ui/react'
 import {SumInfoRes} from "../../interface/SummonerInfo";
 import {querySummonerInfo} from "../../utils/getSumInfo";
 import MatchSumDetail from "./components/MatchSumDetail";
 import {SumDetail} from "../../interface/MatchDetail";
 
-export const SumIdContext = createContext(0)
 export const AlterToSumId = createContext((sumId: number) => {})
 
 export const Match = () =>  {
@@ -81,10 +80,8 @@ export const Match = () =>  {
             <RExcelChamp champList={sumInfoProps.excelChamp}/>
           </GridItem>
           <GridItem area={'nav'}>
-            <SumIdContext.Provider value={sumInfoProps.sumInfo.currentId}>
-              <RMatchHistory puuid={sumInfoProps.sumInfo.puuid} openSumDetailDrawer={openSumDetailDrawer}
-                             begIndex={String((page-1)*9)} endIndex={String(page*9)} matchMode={matchMode}/>
-            </SumIdContext.Provider>
+            <RMatchHistory sumId={sumInfoProps.sumInfo.currentId} puuid={sumInfoProps.sumInfo.puuid} openSumDetailDrawer={openSumDetailDrawer}
+                           begIndex={String((page-1)*9)} endIndex={String(page*9)} matchMode={matchMode}/>
           </GridItem>
         </Grid>
       </div>
