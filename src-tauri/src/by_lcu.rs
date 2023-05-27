@@ -63,7 +63,10 @@ pub async fn get_excel_champ(summoner_id:String) -> Result<Value, String> {
 pub async fn get_match_list(puuid:String,beg_index:String,end_index:String) -> Result<Value, String> {
     let client = &*REST_CLIENT;
     let url = format!("/lol-match-history/v1/products/lol/{}/matches?begIndex={}&endIndex={}", puuid,beg_index,end_index).to_string();
-    let res =  client.get(url).await.unwrap();
+    let res = match client.get(url).await {
+        Ok(result) => result,
+        Err(err) => return Err(err.to_string()),
+    };
     Ok(res)
 }
 #[command]
