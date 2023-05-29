@@ -3,13 +3,13 @@
     background:rgba(31, 202, 188, 0.12);
     border-radius: 22px;
     display: flex;
-    padding: 0px 12px;
+    padding: 0px 6px;
     align-items: center;
     justify-content: space-between;
 }
 .progressLineBcg {
     border-radius: 10px;
-    width: 75%;
+    width: 70%;
     height: 100%;
     padding: 6px 0px;
 }
@@ -108,3 +108,7 @@
     }
 
 }
+.fade-in{animation:fade-in-fwd .8s cubic-bezier(.39,.575,.565,1.000) both}
+@keyframes fade-in-fwd{0%{opacity:0}100%{opacity:1}}
+.fade-out{animation:fade-out-fwd 0.4s cubic-bezier(.39,.575,.565,1.000) both}
+@keyframes fade-out-fwd{0%{opacity:1}100%{opacity:0}}

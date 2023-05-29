@@ -28,7 +28,7 @@ export default function ({sumInfo,rankPoint}:{sumInfo:SumReslut,rankPoint:string
                 </div>
               </div>
             </div>
-            <p className="pText">{lv}</p>
+            <p className="pText">{`Lv ${sumInfo.lv}`}</p>
           </div>
         </div>
       </div>

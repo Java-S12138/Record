@@ -64,12 +64,12 @@ export const iconDict:{ [key: string]: string } = {
   'god':'超神! So Easy',
   'goldEarned':'获得最多金币 So Rich',
   'kills':'击杀最多 是在下无敌啦',
-  'mvp':'MVP',
-  'svp':'SVP',
+  'mvp':'Most Valuable Player',
+  'svp':'Super Valuable Player',
   'threeKills':'三杀! Good Job',
   'totalDamageDealtToChampions':'输出最高伤害 人称小代',
   'totalDamageTaken':'承伤最多的坦克爸爸',
   'totalMinionsKilled':'补刀最多 随便玩玩啦',
-  'turretKills':'拆塔最多',
+  'turretKills':'拆塔最多, 人在塔拆',
   'visionScore':'视野得分最高'
 }

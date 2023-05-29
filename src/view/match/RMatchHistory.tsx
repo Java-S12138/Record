@@ -9,6 +9,7 @@ import {ParticipantsInfo, MatchHistoryTypes} from "../../interface/MatchDetail";
 import {MatchDetails} from "../../utils/getMatchDetail";
 import {invoke} from "@tauri-apps/api";
 import {queryGameType} from "../../utils/tool";
+import {open} from "@tauri-apps/api/shell";
 
 const matchDetials = new MatchDetails()
 
@@ -91,7 +92,10 @@ export default function ({sumId,puuid, begIndex, endIndex, openSumDetailDrawer, 
       <div className='p-3 bg-white h-full w-full boxShadow  divContentCenter'>
         <div className='flex-col flex gap-3'>
           无数据响应, 或许与英雄联盟服务器有关
-          <Button style={{fontWeight:'400'}} size={'sm'} onClick={() => {location.reload()}}>重新获取</Button>
+          <div className='flex justify-between'>
+            <Button style={{fontWeight:'400',width:'120px'}} size={'sm'} onClick={() => {open('https://www.yuque.com/java-s/frank/bug')}}>查看详情</Button>
+            <Button style={{fontWeight:'400',width:'120px'}} size={'sm'} colorScheme='telegram' onClick={() => {location.reload()}}>重新获取</Button>
+          </div>
         </div>
       </div>
     )
