@@ -26,7 +26,16 @@ export class MatchDetails {
   public queryGameDetail = async (gameId:string,sumId:number) => {
     this.init()
     const response:GameDetailedInfo = await invoke('get_match_detail',{gameId:gameId})
-    return this.getParticipantsDetails(response,response.participants, response.participantIdentities,gameId,sumId)
+    if (response.queueId === 1700){
+      return {
+        queueId : response.queueId,
+        details :this.getFighterParticipantsDetails(response,response.participants, response.participantIdentities,gameId,sumId)
+      }
+    }
+    return {
+      queueId : response.queueId,
+      details :this.getParticipantsDetails(response,response.participants, response.participantIdentities,gameId,sumId)
+    }
   }
 
   private init() {
@@ -68,7 +77,7 @@ export class MatchDetails {
   }
   // 解析对局数据
   private analyticalData  = (participant:Participant,nameList: {name: string, summonerId: number},gameId:string,maxMatchData:MaxMatchData,sumId:number):SummonerDetailInfo => {
-    const iconList = this.getIconList(participant.stats,maxMatchData)
+    var iconList = this.getIconList(participant.stats,maxMatchData)
     if (participant.stats.firstBloodKill){
       iconList.push('firstBlood')
     }
@@ -84,12 +93,14 @@ export class MatchDetails {
     if (participant.stats.largestKillingSpree>=8){
       iconList.push('god')
     }
-    const showDataDict:ShowDataTypes = this.getShowDataPercent(maxMatchData,{totalDamageDealtToChampions:participant.stats.totalDamageDealtToChampions,
+    var showDataDict:ShowDataTypes = this.getShowDataPercent(maxMatchData,{totalDamageDealtToChampions:participant.stats.totalDamageDealtToChampions,
       totalDamageTaken:participant.stats.totalDamageTaken,
       goldEarned:participant.stats.goldEarned,
       visionScore:participant.stats.visionScore,
       totalMinionsKilled:participant.stats.totalMinionsKilled+participant.stats.neutralMinionsKilled
     })
+
+
     return{
       name: nameList.name,
       gameId:gameId,
@@ -206,6 +217,9 @@ export class MatchDetails {
   }
   // 获取对于的最大数据图标
   private getIconList = (stats:Stat,maxMatchData:MaxMatchData) => {
+    if (maxMatchData === null){
+      return []
+    }
     const iconList:string[] = []
     for (const key of Object.keys(maxMatchData)) {
       if (key==='totalMinionsKilled'){
@@ -264,5 +278,24 @@ export class MatchDetails {
         return max
       }
     }, {value: 0, index: 0})
+  }
+  // 获取斗魂竞技场战绩数据
+  private getFighterParticipantsDetails = (res:GameDetailedInfo,participants:Participant[], participantIdentities: ParticipantIdentity[],gameId:string,sumId:number) => {
+    try {
+      const titleList = this.getDetailsTitle(res.gameCreation,res.gameDuration,res.queueId)
+      const nameList = this.getparticipantIdAndName(participantIdentities)
+      const result = []
+      const maxMatchData = this.getMaxField(participants)
+      for (let i = 0; i < nameList.length; i++) {
+        result.push(this.analyticalData(participants[i],nameList[i],gameId,maxMatchData,sumId))
+      }
+      result.sort((a, b) => b.goldEarned - a.goldEarned)
+
+      return {
+        title:titleList,groupedPlayers:result
+      }
+    }catch (e) {
+      return {title: [],groupedPlayers: []}
+    }
   }
 }

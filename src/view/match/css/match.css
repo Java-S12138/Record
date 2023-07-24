@@ -46,3 +46,12 @@
     display: flex;
     justify-content: space-between;
 }
+.matchFighterContain {
+    height: 464px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    max-width: 605px;
+    column-gap: 65px;
+    row-gap: 45px;
+}

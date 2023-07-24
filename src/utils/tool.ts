@@ -5,6 +5,7 @@ export const englishToChinese = (tier:string) => {
     case 'GRANDMASTER' :return '宗师';
     case 'MASTER' :return '大师';
     case 'DIAMOND' :return '钻石';
+    case 'EMERALD' :return '翡翠';
     case 'PLATINUM' :return '铂金';
     case 'GOLD' :return '黄金';
     case 'SILVER' :return '白银';
@@ -25,6 +26,7 @@ export const queryGameType = (queueId:number) => {
     case 430 : return '匹配模式';
     case 440 : return '灵活排位';
     case 450 : return '极地乱斗';
+    case 1700 : return '斗魂竞技场';
   }
   return '其它模式'
 }

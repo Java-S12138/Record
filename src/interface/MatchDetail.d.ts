@@ -1,7 +1,7 @@
 export interface MatchItem {
   isLeft: boolean
   detailInfo: SummonerDetailInfo[],
-  showTypeKey: 'totalDamageDealtToChampions'|'totalDamageTaken'|'goldEarned'|'visionScore'|'totalMinionsKilled',
+  showTypeKey: 'totalDamageDealtToChampions' | 'totalDamageTaken' | 'goldEarned' | 'visionScore' | 'totalMinionsKilled',
   showTypeIndex: number,
   querySumDetail: Function
 }
@@ -249,7 +249,7 @@ export interface SummonerDetailInfo {
   name: string;
   gameId: string;
   accountId: number;
-  isCurSum:boolean,
+  isCurSum: boolean,
   teamType: number;
   champLevel: number;
   champImgUrl: string;
@@ -278,11 +278,11 @@ export interface SummonerDetailInfo {
   wardsPlaced: number;
   runesList: number[];
   totalMinionsKilled: number;
-  iconList:string[],
-  score:number,
-  isWin:boolean,
-  isMvp:boolean,
-  showDataDict:ShowDataTypes
+  iconList: string[],
+  score: number,
+  isWin: boolean,
+  isMvp: boolean,
+  showDataDict: ShowDataTypes
 }
 
 export interface ParticipantsInfo {
@@ -292,7 +292,7 @@ export interface ParticipantsInfo {
 }
 
 export interface MatchHistoryTypes {
-  sumId:number
+  sumId: number
   puuid: string,
   begIndex: string,
   endIndex: string,
@@ -310,10 +310,11 @@ export interface MaxMatchData {
   totalDamageTaken: number;
   visionScore: number;
 }
+
 export interface ShowDataTypes {
-  totalDamageDealtToChampions:number,
-  totalDamageTaken:number,
-  goldEarned:number,
-  visionScore:number,
-  totalMinionsKilled:number
+  totalDamageDealtToChampions: number,
+  totalDamageTaken: number,
+  goldEarned: number,
+  visionScore: number,
+  totalMinionsKilled: number
 }

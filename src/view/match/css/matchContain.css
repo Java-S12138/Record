@@ -62,6 +62,17 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+.summonerFighterName {
+    position: absolute;
+    top: -2px;
+    left: 0px;
+    max-width: 110px;
+    font-size: 13px;
+    color: #A1A1AA;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 .kdaDiv {
     height: 18px;

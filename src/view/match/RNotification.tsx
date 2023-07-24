@@ -23,7 +23,7 @@ export default function ({notice}: { notice: NoticeTypes }) {
         </div>
         <Button onClick={() => {open('https://lolfrank.cn')}}
           size={'sm'} colorScheme='red' style={{fontWeight:'400',height:'30px',
-          backgroundColor:'rgba(255, 102, 102, 0.12)',color:'#ff6666'}}>了解更多功能</Button>
+          backgroundColor:'rgba(255, 102, 102, 0.12)',color:'#ff6666'}}>了解更多功能 当前版本 1.1.1</Button>
       </div>
       <div style={{width: '720px', height: '490px'}}>
         <img src={recordImg}/>

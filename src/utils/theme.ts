@@ -23,11 +23,18 @@ const NError = definePartsStyle({
     color:'#ff6666'
   },
 })
+const NWarning = definePartsStyle({
+  container: {
+    bg: 'rgba(240, 160, 32, 0.12)',
+    color:'#f0a020'
+  },
+})
 
 export const tagTheme = defineMultiStyleConfig({
     variants: {
       NInfo: NInfo,
       NSuccess:NSuccess,
-      NError:NError
+      NError:NError,
+      NWarning:NWarning
     },
   })

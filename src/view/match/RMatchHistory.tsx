@@ -2,6 +2,7 @@ import "./css/animation.css"
 import MatchListEle from "./components/MatchList";
 import {useEffect, useRef, useState} from "react";
 import MatchDetail from "./components/MatchDetail";
+import MatchDetailFighter from "./components/MatchDetailFighter";
 import {MatchList} from "../../interface/MatchInfo";
 import {queryMatchList} from "../../utils/getMatchInfo";
 import {Grid, GridItem, Button} from '@chakra-ui/react';
@@ -17,6 +18,7 @@ export default function ({sumId,puuid, begIndex, endIndex, openSumDetailDrawer, 
   const [matchListProps, setMatchListProps] = useState<MatchList[]>([])
   const [participantsInfo, setParticipantsInfo] = useState({headerInfo: ['init']} as ParticipantsInfo)
   const [currentGameId, setCurrentGameId] = useState('')
+  const [currentQueueId, setCurrentQueueId] = useState(0)
   const [matchIndex, setMatchIndex] = useState(0)
   const specialMatch = useRef({currentMode:'0',matchList:[] as MatchList[]} )
 
@@ -59,8 +61,11 @@ export default function ({sumId,puuid, begIndex, endIndex, openSumDetailDrawer, 
       setCurrentGameId(gameId)
       setMatchIndex(matchIndex)
       if (gameDetail !== null) {
-        setParticipantsInfo(gameDetail)
+        setCurrentQueueId(gameDetail.queueId)
+        // @ts-ignore
+        setParticipantsInfo(gameDetail.details)
       } else {
+        setCurrentQueueId(0)
         setParticipantsInfo({} as ParticipantsInfo)
       }
     }, 300)
@@ -75,8 +80,11 @@ export default function ({sumId,puuid, begIndex, endIndex, openSumDetailDrawer, 
       setCurrentGameId(gameId)
       matchDetials.queryGameDetail(gameId,sumId).then((detail) => {
         if (detail !== null) {
-          setParticipantsInfo(detail)
+          setCurrentQueueId(detail.queueId)
+          // @ts-ignore
+          setParticipantsInfo(detail.details)
         }else {
+          setCurrentQueueId(0)
           setParticipantsInfo({} as ParticipantsInfo)
         }
       })
@@ -109,6 +117,10 @@ export default function ({sumId,puuid, begIndex, endIndex, openSumDetailDrawer, 
     return (<></>)
   }
 
+  const matchDetail = currentQueueId===1700
+    ? <MatchDetailFighter key={matchIndex} participantsInfo={participantsInfo}/>
+    : <MatchDetail key={matchIndex} participantsInfo={participantsInfo} openDrawer={openSumDetailDrawer}/>
+
   return (
     <div className='p-3 bg-white h-full w-full boxShadow'>
       <Grid
@@ -121,7 +133,7 @@ export default function ({sumId,puuid, begIndex, endIndex, openSumDetailDrawer, 
         </GridItem>
 
         <GridItem colSpan={4} id='matchDetail'>
-          <MatchDetail key={matchIndex} participantsInfo={participantsInfo} openDrawer={openSumDetailDrawer}/>
+          {matchDetail}
         </GridItem>
       </Grid>
     </div>
