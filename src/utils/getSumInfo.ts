@@ -30,6 +30,9 @@ const getSumInfo = (summonerInfo:lcuSummonerInfo) => {
 // 查询召唤师排位分数
 const getRankPoint = async (puuid: string) => {
   const rankPoint:any = await invoke('get_cur_rank_point',{puuid:puuid})
+  if (rankPoint.queues === undefined) {
+    return ['error','error','error']
+  }
   // 单双排位/ 灵活排位/ 云顶之亦
   let rankSolo = rankPoint.queues.find((i: any) => i.queueType === "RANKED_SOLO_5x5")
   let rankSr = rankPoint.queues.find((i: any) => i.queueType === "RANKED_FLEX_SR")

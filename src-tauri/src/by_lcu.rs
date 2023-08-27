@@ -48,7 +48,10 @@ pub async fn get_other_sum_by_name(name:String) -> Result<Value, String> {
 pub async fn get_cur_rank_point(puuid:String) -> Result<Value, String> {
     let client = &*REST_CLIENT;
     let url = format!("/lol-ranked/v1/ranked-stats/{}", puuid).to_string();
-    let res =  client.get(url).await.unwrap();
+    let res = match client.get(url).await {
+        Ok(result) => result,
+        Err(err) => return Err(err.to_string()),
+    };
     Ok(res)
 }
 
