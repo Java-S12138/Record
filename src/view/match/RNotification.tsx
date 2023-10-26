@@ -4,7 +4,7 @@ import {open} from '@tauri-apps/api/shell'
 import {NoticeTypes} from "../../interface/SummonerInfo";
 
 export default function ({notice}: { notice: NoticeTypes }) {
-  const content = notice?.is_show ? notice?.content : '当前暂无通知信息 温馨提示: 此软件可在网上免费下载 请勿花钱购买'
+  const content = notice?.is_show ? notice?.content : 'Tips：此软件可在网上免费下载，请勿花钱购买 ▪ Ctrl+R 刷新页面'
 
   const buttonEle = notice?.is_button
     ?
@@ -23,7 +23,7 @@ export default function ({notice}: { notice: NoticeTypes }) {
         </div>
         <Button onClick={() => {open('https://lolfrank.cn')}}
           size={'sm'} colorScheme='red' style={{fontWeight:'400',height:'30px',
-          backgroundColor:'rgba(255, 102, 102, 0.12)',color:'#ff6666'}}>了解更多功能 当前版本 1.1.1</Button>
+          backgroundColor:'rgba(255, 102, 102, 0.12)',color:'#ff6666'}}>了解更多功能 当前版本 1.1.4</Button>
       </div>
       <div style={{width: '720px', height: '490px'}}>
         <img src={recordImg}/>

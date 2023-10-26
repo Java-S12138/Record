@@ -165,6 +165,7 @@ export const champDict:
   '897': {'champId': '897', 'label': '纳祖芒荣耀', 'alias': 'KSante', 'title': '奎桑提'},
   '902': {'champId': '902', 'label': '明烛', 'alias': 'Milio', 'title': '米利欧'},
   '950': {'champId': '950', 'label': '百裂冥犬', 'alias': 'Naafiri', 'title': '纳亚菲利'},
+   '233': {'champId': '233', 'label': '狂厄蔷薇', 'alias': 'Briar', 'title': '贝蕾亚'},
 }
 
 export const optionsChampion = [
@@ -664,6 +665,10 @@ export const optionsChampion = [
   {
     'value': '950',
     'label': '百裂冥犬'
+  },
+  {
+    'value': '233',
+    'label': '狂厄蔷薇'
   }
 ]
 export const mapNameFromUrl:  { [key: string]: { label: string, name: string } }  = {
@@ -832,6 +837,7 @@ export const mapNameFromUrl:  { [key: string]: { label: string, name: string } }
   'KSante': {'label': '纳祖芒荣耀', 'name': '奎桑提'},
   'Milio': {'label': '明烛', 'name': '米利欧'},
   'Naafiri': {'label': '百裂冥犬', 'name': '纳亚菲利'},
+  'Briar': {'label': '狂厄蔷薇', 'name': '贝蕾亚'}
 }
 export const aliasToId:  { [key: string]: number } = {
   "Annie": 1,
@@ -998,4 +1004,5 @@ export const aliasToId:  { [key: string]: number } = {
   "KSante": 897,
   "Milio": 902,
   "Naafiri": 950,
+  "Briar": 233,
 }

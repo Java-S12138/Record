@@ -10,7 +10,7 @@ export const querySummonerInfo = async (sumId:number):Promise<SumInfoRes> => {
   const [sumInfo,rankPoint,excelChamp] =
     await Promise.all([getSumInfo(summonerInfo),
       getRankPoint(summonerInfo.puuid),
-      getExcelChamp(`${summonerInfo.summonerId}`)])
+      getExcelChamp(`${summonerInfo.puuid}`)])
   return {sumInfo,rankPoint,excelChamp}
 }
 
@@ -45,8 +45,8 @@ const getRankPoint = async (puuid: string) => {
 }
 
 // 获取召唤师英雄绝活数据
-const getExcelChamp = async (summonerId: string):Promise<ExcelChamp[]> => {
-    const summonerSuperChampData: any = await invoke('get_excel_champ',{summonerId:summonerId})
+const getExcelChamp = async (puuid: string):Promise<ExcelChamp[]> => {
+    const summonerSuperChampData: any = await invoke('get_excel_champ',{summonerPuuid:puuid})
     return  summonerSuperChampData.slice(0, 20).reduce((res: any, item: any) => {
       return res.concat({
         champImgUrl: `https://game.gtimg.cn/images/lol/act/img/champion/${champDict[item.championId].alias}.png`,
