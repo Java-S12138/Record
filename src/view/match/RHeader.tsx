@@ -53,12 +53,13 @@ export default function ({page,handleChange,localSumId,sumId,matchMode,handleSel
       return
     }
 
-    const sumInfo:lcuSummonerInfo = await invoke('get_other_sum_by_name',{name:inputValue})
-    if (sumInfo?.httpStatus===404){
+    const sumInfo:lcuSummonerInfo = await invoke('get_other_sum_by_name',{name:encodeURIComponent(inputValue)})
+
+    if (sumInfo?.httpStatus===404 ||sumInfo?.httpStatus===422){
       toast({
-        description: "当前召唤师不存在",
+        description: "当前召唤师不存在 [ 跨区服务器需要加上编号 ] xxx#12138",
         status: 'error',
-        duration: 2000,
+        duration: 4000,
         containerStyle:{fontSize:'14px',minWidth:'0px',paddingBottom:'4px'}
       })
       setInputValue('')

@@ -167,6 +167,18 @@ export const champDict:
     '950': {'champId': '950', 'label': '百裂冥犬', 'alias': 'Naafiri', 'title': '纳亚菲利'},
     '233': {'champId': '233', 'label': '狂厄蔷薇', 'alias': 'Briar', 'title': '贝蕾亚'},
     '910': {'champId': '910', 'label': '异画师', 'alias': 'Hwei', 'title': '彗'},
+    '901': {'champId': '901', 'label': '炽炎雏龙', 'alias': 'Smolder', 'title': '斯莫德'},
+    '893': {'champId': '901', 'label': '双界灵兔', 'alias': 'Aurora', 'title': '阿萝拉'},
+    '3151': {'champId': '3151', 'label': '暴走萝莉', 'alias': 'Jinx', 'title': '金克丝'},
+    '3157': {'champId': '3157', 'label': '疾风剑豪', 'alias': 'Yasuo', 'title': '亚索'},
+    '3156': {'champId': '3156', 'label': '狂厄蔷薇', 'alias': 'Briar', 'title': '贝蕾亚'},
+    '3678': {'champId': '3678', 'label': '海兽祭司', 'alias': 'Illaoi', 'title': '俄洛伊'},
+    '3152': {'champId': '3152', 'label': '曙光女神', 'alias': 'Leona', 'title': '蕾欧娜'},
+    '3947': {'champId': '3947', 'label': '逆羽', 'alias': 'Xayah', 'title': '霞'},
+    '3147': {'champId': '3147', 'label': '放逐之刃', 'alias': 'Riven', 'title': '锐雯'},
+    '3153': {'champId': '3153', 'label': '星籁歌姬', 'alias': 'Seraphine', 'title': '萨勒芬妮'},
+    '3159': {'champId': '3159', 'label': '双界灵兔', 'alias': 'Aurora', 'title': '阿萝拉'},
+
   }
 
 export const optionsChampion = [
@@ -674,6 +686,14 @@ export const optionsChampion = [
   {
     'value': '910',
     'label': '异画师'
+  },
+  {
+    'value': '901',
+    'label': '炽炎雏龙'
+  },
+  {
+    'value': '893',
+    'label': '双界灵兔'
   }
 ]
 export const mapNameFromUrl: { [key: string]: { label: string, name: string } } = {
@@ -843,7 +863,9 @@ export const mapNameFromUrl: { [key: string]: { label: string, name: string } } 
   'Milio': {'label': '明烛', 'name': '米利欧'},
   'Naafiri': {'label': '百裂冥犬', 'name': '纳亚菲利'},
   'Briar': {'label': '狂厄蔷薇', 'name': '贝蕾亚'},
-  'Hwei': {'label': '异画师', 'name': '彗'}
+  'Hwei': {'label': '异画师', 'name': '彗'},
+  'Smolder': {'label': '炽炎雏龙', 'name': '斯莫德'},
+  'Aurora': {'label': '双界灵兔', 'name': '阿萝拉'},
 }
 export const aliasToId: { [key: string]: number } = {
   "Annie": 1,
@@ -1012,4 +1034,6 @@ export const aliasToId: { [key: string]: number } = {
   "Naafiri": 950,
   "Briar": 233,
   "Hwei": 910,
+  "Smolder": 901,
+  "Aurora": 893,
 }

@@ -47,6 +47,7 @@ const getRankPoint = async (puuid: string) => {
 // 获取召唤师英雄绝活数据
 const getExcelChamp = async (puuid: string):Promise<ExcelChamp[]> => {
     const summonerSuperChampData: any = await invoke('get_excel_champ',{summonerPuuid:puuid})
+  try {
     return  summonerSuperChampData.slice(0, 20).reduce((res: any, item: any) => {
       return res.concat({
         champImgUrl: `https://game.gtimg.cn/images/lol/act/img/champion/${champDict[item.championId].alias}.png`,
@@ -55,6 +56,9 @@ const getExcelChamp = async (puuid: string):Promise<ExcelChamp[]> => {
         champLabel:`${champDict[item.championId].label} ${champDict[item.championId].title}`
       })
     }, [])
+  }catch (e) {
+      return []
+  }
 }
 
 // 查询其他召唤师段位信息

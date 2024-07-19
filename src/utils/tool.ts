@@ -11,6 +11,7 @@ export const englishToChinese = (tier:string) => {
     case 'SILVER' :return '白银';
     case 'BRONZE' :return '青铜';
     case 'IRON' :return '黑铁';
+    default: return '未知'
   }
 }
 
@@ -27,6 +28,16 @@ export const queryGameType = (queueId:number) => {
     case 440 : return '灵活排位';
     case 450 : return '极地乱斗';
     case 1700 : return '斗魂竞技场';
+    case 1900 :
+      return '无限火力';
+    case 1820 :
+      return '无尽狂潮';
+    case 1810 :
+      return '无尽狂潮';
+    case 1830 :
+      return '无尽狂潮';
+    case 1840 :
+      return '无尽狂潮';
   }
   return '其它模式'
 }
