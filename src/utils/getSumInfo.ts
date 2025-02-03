@@ -17,7 +17,7 @@ export const querySummonerInfo = async (sumId:number):Promise<SumInfoRes> => {
 const getSumInfo = (summonerInfo:lcuSummonerInfo) => {
   const imgUrl = `https://wegame.gtimg.com/g.26-r.c2d3c/helper/lol/assis/images/resources/usericon/${summonerInfo.profileIconId}.png`
   return {
-    name: summonerInfo.displayName,
+    name: summonerInfo.gameName||summonerInfo.displayName,
     imgUrl,
     lv: summonerInfo.summonerLevel,
     xpSL: summonerInfo.xpSinceLastLevel,

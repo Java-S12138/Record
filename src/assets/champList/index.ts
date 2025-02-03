@@ -169,6 +169,18 @@ export const champDict:
     '910': {'champId': '910', 'label': '异画师', 'alias': 'Hwei', 'title': '彗'},
     '901': {'champId': '901', 'label': '炽炎雏龙', 'alias': 'Smolder', 'title': '斯莫德'},
     '893': {'champId': '901', 'label': '双界灵兔', 'alias': 'Aurora', 'title': '阿萝拉'},
+    '799': {
+      "champId":'799',
+      "label": "铁血狼母",
+      "alias": "Ambessa",
+      "title": "安蓓萨",
+    },
+    '800': {
+      "champId":'800',
+      "label": "流光镜影",
+      "alias": "Mel",
+      "title": "梅尔",
+    },
     '3151': {'champId': '3151', 'label': '暴走萝莉', 'alias': 'Jinx', 'title': '金克丝'},
     '3157': {'champId': '3157', 'label': '疾风剑豪', 'alias': 'Yasuo', 'title': '亚索'},
     '3156': {'champId': '3156', 'label': '狂厄蔷薇', 'alias': 'Briar', 'title': '贝蕾亚'},
@@ -694,6 +706,14 @@ export const optionsChampion = [
   {
     'value': '893',
     'label': '双界灵兔'
+  },
+  {
+    'value': '799',
+    'label': '铁血狼母'
+  },
+  {
+    'value': '800',
+    'label': '流光镜影'
   }
 ]
 export const mapNameFromUrl: { [key: string]: { label: string, name: string } } = {
@@ -866,6 +886,8 @@ export const mapNameFromUrl: { [key: string]: { label: string, name: string } } 
   'Hwei': {'label': '异画师', 'name': '彗'},
   'Smolder': {'label': '炽炎雏龙', 'name': '斯莫德'},
   'Aurora': {'label': '双界灵兔', 'name': '阿萝拉'},
+  'Ambessa': {'label': '铁血狼母', 'name': '安蓓萨'},
+  'Mel': {'label': '流光镜影', 'name': '梅尔'},
 }
 export const aliasToId: { [key: string]: number } = {
   "Annie": 1,
@@ -1036,4 +1058,6 @@ export const aliasToId: { [key: string]: number } = {
   "Hwei": 910,
   "Smolder": 901,
   "Aurora": 893,
+  "Ambessa": 799,
+  "Mel":800
 }

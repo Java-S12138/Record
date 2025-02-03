@@ -159,7 +159,7 @@ export class MatchDetails {
     let dataList = []
     for (const participantIdentity of participantIdentities) {
       dataList.push({
-        name: participantIdentity.player.summonerName,
+        name: participantIdentity.player.gameName||participantIdentity.player.summonerName,
         summonerId:participantIdentity.player.summonerId})
     }
     return dataList

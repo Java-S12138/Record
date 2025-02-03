@@ -102,7 +102,7 @@ export default function ({sumId,puuid, begIndex, endIndex, openSumDetailDrawer, 
           无数据响应, 或许与英雄联盟服务器有关
           <div className='flex justify-between'>
             <Button style={{fontWeight:'400',width:'120px'}} size={'sm'} onClick={() => {open('https://www.yuque.com/java-s/frank/bug')}}>查看详情</Button>
-            <Button style={{fontWeight:'400',width:'120px'}} size={'sm'} colorScheme='telegram' onClick={() => {location.reload()}}>重新获取</Button>
+            <Button style={{fontWeight:'400',width:'120px'}} size={'sm'} colorScheme='blue' onClick={() => {location.reload()}}>重新获取</Button>
           </div>
         </div>
       </div>

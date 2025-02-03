@@ -89,7 +89,7 @@ export default function ({page,handleChange,localSumId,sumId,matchMode,handleSel
 
   const noticeEle = localSumId !== sumId
       ? <Button size={'sm'} onClick={() => {alterToSumId(localSumId)}}
-                colorScheme='twitter' className='headerButton' style={{marginLeft:'9px'}}>查看自己</Button>
+                colorScheme='blue' className='headerButton' style={{marginLeft:'9px'}}>查看自己</Button>
       : <Tag variant='NError' style={{height:'32px',marginLeft:'13px'}}
              className='cursor-pointer' onClick={onOpen}>{notice?.is_show ? '新的通知':'更多功能'}</Tag>
 
@@ -110,7 +110,7 @@ export default function ({page,handleChange,localSumId,sumId,matchMode,handleSel
           <Input size={'sm'} width={'172px'} value={inputValue} onChange={handleInputChange} onKeyDown={handleKeyPress}
                  style={{borderRadius:'0.375rem',fontSize:'13px'}} placeholder='仅支持查询 当前大区玩家' />
           <Button size={'sm'} onClick={searchSum}
-                  colorScheme='telegram' className='headerButton'>搜索</Button>
+                  colorScheme='blue' className='headerButton'>搜索</Button>
           <Select value={matchMode} isDisabled={isDisable}  onChange={handleMatchSelect}
                   variant='outline' size='sm' width='100px'>
             <option value='0'>全部模式</option>

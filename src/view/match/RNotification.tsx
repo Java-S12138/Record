@@ -9,7 +9,7 @@ export default function ({notice}: { notice: NoticeTypes }) {
   const buttonEle = notice?.is_button
     ?
     <Button onClick={() => {open(notice?.url)}}
-            size={'sm'} colorScheme='twitter' style={{fontWeight:'400',height:'30px'}}>
+            size={'sm'} colorScheme='blue' style={{fontWeight:'400',height:'30px'}}>
       {notice?.button_content}</Button>
     :
     <div></div>
@@ -23,7 +23,7 @@ export default function ({notice}: { notice: NoticeTypes }) {
         </div>
         <Button onClick={() => {open('https://lolfrank.cn')}}
           size={'sm'} colorScheme='red' style={{fontWeight:'400',height:'30px',
-          backgroundColor:'rgba(255, 102, 102, 0.12)',color:'#ff6666'}}>了解更多功能 当前版本 1.1.8</Button>
+          backgroundColor:'rgba(255, 102, 102, 0.12)',color:'#ff6666'}}>了解更多功能 当前版本 1.1.9</Button>
       </div>
       <div style={{width: '720px', height: '490px'}}>
         <img src={recordImg}/>

@@ -98,7 +98,7 @@ export default function ({sumDetail,closeDrawer}:{sumDetail:SumDetail,closeDrawe
       {/*查询此人*/}
       <div className='flex justify-between' style={{marginTop:'10px'}}>
         <Button size={'sm'} style={{fontWeight:'400',height:'30px'}}
-                colorScheme='twitter' onClick={() => {changeSumId(sumDetail.summonerId)}}>查看详细战绩</Button>
+                colorScheme='blue' onClick={() => {changeSumId(sumDetail.summonerId)}}>查看详细战绩</Button>
         <Button onClick={() => {open('https://lolfrank.cn')}}
           size={'sm'} colorScheme='red' style={{fontWeight:'400',height:'30px',
           backgroundColor:'#ff6666',color:'#fff'}}>了解更多功能</Button>

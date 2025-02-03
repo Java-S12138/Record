@@ -58,7 +58,7 @@ pub async fn get_cur_rank_point(puuid:String) -> Result<Value, String> {
 #[command]
 pub async fn get_excel_champ(summoner_puuid:String) -> Result<Value, String> {
     let client = &*REST_CLIENT;
-    let url = format!("/lol-collections/v1/inventories/{}/champion-mastery", summoner_puuid).to_string();
+    let url = format!("/lol-champion-mastery/v1/{}/champion-mastery", summoner_puuid).to_string();
     let res =  client.get(url).await.unwrap();
     Ok(res)
 }

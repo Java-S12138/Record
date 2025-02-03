@@ -13,7 +13,8 @@ export interface lcuSummonerInfo {
   unnamed: boolean;
   xpSinceLastLevel: number;
   xpUntilNextLevel: number;
-  httpStatus?: number
+  httpStatus?: number;
+  gameName:string
 }
 
 interface SumReslut {
